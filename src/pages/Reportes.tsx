@@ -167,42 +167,36 @@ export function Reportes() {
   return (
     <>
       {/* Barra superior: sub-tabs + filtros */}
-      <div className="d-flex align-items-center gap-2 mb-3 flex-wrap">
+      <div className="filter-bar mb-3">
+        <div className="d-flex gap-2 align-items-center">
+          {/* Sub-tabs — mitad izquierda */}
+          <div style={{ flex: 1 }}>
+            <div className="btn-group btn-group-sm">
+              <button
+                type="button"
+                className={`btn ${vista === 'resumen' ? 'btn-primary' : 'btn-outline-secondary'}`}
+                onClick={() => setVista('resumen')}
+                title="Resumen"
+              >
+                🧾<span className="d-none d-md-inline ms-1">Resumen</span>
+              </button>
+              <button
+                type="button"
+                className={`btn ${vista === 'dashboard' ? 'btn-primary' : 'btn-outline-secondary'}`}
+                onClick={() => setVista('dashboard')}
+                title="Dashboard"
+              >
+                📈<span className="d-none d-md-inline ms-1">Dashboard</span>
+              </button>
+            </div>
+          </div>
 
-        {/* Sub-tabs */}
-        <div className="btn-group btn-group-sm">
-          <button
-            type="button"
-            className={`btn ${vista === 'resumen' ? 'btn-primary' : 'btn-outline-secondary'}`}
-            onClick={() => setVista('resumen')}
-            title="Resumen"
-          >
-            🧾<span className="d-none d-md-inline ms-1">Resumen</span>
-          </button>
-          <button
-            type="button"
-            className={`btn ${vista === 'dashboard' ? 'btn-primary' : 'btn-outline-secondary'}`}
-            onClick={() => setVista('dashboard')}
-            title="Dashboard"
-          >
-            📈<span className="d-none d-md-inline ms-1">Dashboard</span>
-          </button>
-        </div>
-
-        {/* Filtros */}
-        <div className="ms-auto d-flex gap-2 flex-wrap">
-          <div className="d-flex align-items-center gap-1">
-            <Form.Control type="month" lang="es-AR" size="sm" style={{ maxWidth: 148 }}
+          {/* Periodo — mitad derecha */}
+          <div style={{ flex: 1, minWidth: 0 }} className="d-flex align-items-center gap-1">
+            <Form.Control type="month" lang="es-AR" size="sm" style={{ flex: 1, minWidth: 0 }}
               value={periodo} onChange={e => setPeriodo(e.target.value)} title="Período contable" />
             {periodo && <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>}
           </div>
-          {!periodo && (
-            <div className="d-flex align-items-center gap-1">
-              <Form.Control type="month" lang="es-AR" size="sm" style={{ maxWidth: 148 }}
-                value={mes} onChange={e => setMes(e.target.value)} title="Mes (fecha)" />
-              {mes && <Button variant="outline-secondary" size="sm" onClick={() => setMes('')}>✕</Button>}
-            </div>
-          )}
         </div>
       </div>
 
