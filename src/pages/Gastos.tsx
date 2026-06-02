@@ -78,17 +78,19 @@ export function Gastos({ onOpenGasto, activePeriodo, onPeriodoChange }: Props) {
 
       {/* Filtros */}
       <div className="filter-bar mb-3">
-        <div className="filter-auto d-flex align-items-center gap-1">
-          <Form.Control type="month" lang="es-AR" size="sm"
-            value={periodo} onChange={e => handlePeriodoChange(e.target.value)} />
-          {periodo && <Button variant="outline-secondary" size="sm" onClick={() => handlePeriodoChange('')}>✕</Button>}
-        </div>
+        <div className="d-flex gap-2">
+          <div className="d-flex align-items-center gap-1" style={{ flex: 1, minWidth: 0 }}>
+            <Form.Control type="month" lang="es-AR" size="sm" style={{ flex: 1, minWidth: 0 }}
+              value={periodo} onChange={e => handlePeriodoChange(e.target.value)} />
+            {periodo && <Button variant="outline-secondary" size="sm" onClick={() => handlePeriodoChange('')}>✕</Button>}
+          </div>
 
-        <InputGroup size="sm" className="search-bar">
-          <InputGroup.Text>🔍</InputGroup.Text>
-          <Form.Control placeholder="Buscar..." value={search} onChange={e => setSearch(e.target.value)} />
-          {search && <Button variant="outline-secondary" onClick={() => setSearch('')}>✕</Button>}
-        </InputGroup>
+          <InputGroup size="sm" style={{ flex: 1, minWidth: 0 }}>
+            <InputGroup.Text>🔍</InputGroup.Text>
+            <Form.Control placeholder="Buscar..." value={search} onChange={e => setSearch(e.target.value)} />
+            {search && <Button variant="outline-secondary" onClick={() => setSearch('')}>✕</Button>}
+          </InputGroup>
+        </div>
 
         <div className="d-flex gap-2">
           <Form.Select size="sm" style={{ flex: 1, minWidth: 0 }} value={filterUser} onChange={e => setFilterUser(e.target.value)}>
