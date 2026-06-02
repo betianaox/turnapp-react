@@ -269,11 +269,12 @@ export function Reportes() {
                 <div className="d-md-none d-flex flex-column gap-1 mb-1">
                   {[...gastosMes].sort((a, b) => b.fecha.localeCompare(a.fecha)).map(g => {
                     const icon = g.cat === 'cancha' ? '💸' : g.cat === 'bar' ? '🍺' : '📦'
+                    const u    = usuarios.find(x => x.uid === g.usuarioId)
                     return (
                       <div key={g.id} className="d-flex justify-content-between py-1 border-bottom" style={{ fontSize: 12 }}>
                         <div>
                           <span className="fw-semibold">{g.desc || '—'}</span>
-                          <small className="text-muted d-block">{icon} {ff(g.fecha)}</small>
+                          <small className="text-muted d-block">{icon} {ff(g.fecha)}{u?.displayName ? <> · <span style={{ fontSize: 10 }}>{u.displayName}</span></> : ''}</small>
                         </div>
                         <span className="fw-bold text-danger">{fp(g.monto)}</span>
                       </div>

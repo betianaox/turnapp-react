@@ -85,58 +85,7 @@ export function ReportesDashboard({
         </Card>
       </Col>
 
-      {/* 2 — Barras: gastos por categoría */}
-      <Col xs={12} md={6}>
-        <Card className="border-0 shadow-sm h-100">
-          <Card.Body>
-            <div className="fw-bold text-uppercase text-muted mb-3" style={{ fontSize: 10, letterSpacing: .5 }}>
-              Gastos por categoría
-            </div>
-            {!gastosPorCat.some(d => d.value > 0)
-              ? <Empty msg="Sin gastos en este período" />
-              : (
-                <ResponsiveContainer width="100%" height={H}>
-                  <BarChart data={gastosPorCat} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
-                    <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={46} tickFormatter={yFmt} />
-                    <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={64}>
-                      {gastosPorCat.map(e => <Cell key={e.name} fill={CAT_COLORS[e.name] ?? '#1A6BBF'} />)}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              )
-            }
-          </Card.Body>
-        </Card>
-      </Col>
-
-      {/* A — Donut: alumnos por tipo de clase */}
-      <Col xs={12} md={6}>
-        <Card className="border-0 shadow-sm h-100">
-          <Card.Body>
-            <div className="fw-bold text-uppercase text-muted mb-3" style={{ fontSize: 10, letterSpacing: .5 }}>
-              Alumnos por tipo de clase
-            </div>
-            {!alumnosPorTipo.some(d => d.value > 0)
-              ? <Empty msg="Sin alumnos activos" />
-              : (
-                <ResponsiveContainer width="100%" height={H}>
-                  <PieChart>
-                    <Pie data={alumnosPorTipo} cx="50%" cy="50%"
-                      innerRadius={52} outerRadius={82} dataKey="value"
-                      labelLine={false} label={PieLabel as any}>
-                      {alumnosPorTipo.map((_, i) => <Cell key={i} fill={TIPO_COLORS[i % TIPO_COLORS.length]} />)}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-              )
-            }
-          </Card.Body>
-        </Card>
-      </Col>
-
-      {/* E — Gauge: tasa de cobro */}
+      {/* 2 — Gauge: tasa de cobro */}
       <Col xs={12} md={6}>
         <Card className="border-0 shadow-sm h-100">
           <Card.Body>
@@ -166,6 +115,57 @@ export function ReportesDashboard({
                     <div className="fw-black lh-1" style={{ fontSize: 44, color: gaugeColor }}>{pct}%</div>
                   </div>
                 </div>
+              )
+            }
+          </Card.Body>
+        </Card>
+      </Col>
+
+      {/* 3 — Barras: gastos por categoría */}
+      <Col xs={12} md={6}>
+        <Card className="border-0 shadow-sm h-100">
+          <Card.Body>
+            <div className="fw-bold text-uppercase text-muted mb-3" style={{ fontSize: 10, letterSpacing: .5 }}>
+              Gastos por categoría
+            </div>
+            {!gastosPorCat.some(d => d.value > 0)
+              ? <Empty msg="Sin gastos en este período" />
+              : (
+                <ResponsiveContainer width="100%" height={H}>
+                  <BarChart data={gastosPorCat} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
+                    <XAxis dataKey="name" tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={46} tickFormatter={yFmt} />
+                    <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={64}>
+                      {gastosPorCat.map(e => <Cell key={e.name} fill={CAT_COLORS[e.name] ?? '#1A6BBF'} />)}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              )
+            }
+          </Card.Body>
+        </Card>
+      </Col>
+
+      {/* 4 — Donut: alumnos por tipo de clase */}
+      <Col xs={12} md={6}>
+        <Card className="border-0 shadow-sm h-100">
+          <Card.Body>
+            <div className="fw-bold text-uppercase text-muted mb-3" style={{ fontSize: 10, letterSpacing: .5 }}>
+              Alumnos por tipo de clase
+            </div>
+            {!alumnosPorTipo.some(d => d.value > 0)
+              ? <Empty msg="Sin alumnos activos" />
+              : (
+                <ResponsiveContainer width="100%" height={H}>
+                  <PieChart>
+                    <Pie data={alumnosPorTipo} cx="50%" cy="50%"
+                      innerRadius={52} outerRadius={82} dataKey="value"
+                      labelLine={false} label={PieLabel as any}>
+                      {alumnosPorTipo.map((_, i) => <Cell key={i} fill={TIPO_COLORS[i % TIPO_COLORS.length]} />)}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
               )
             }
           </Card.Body>

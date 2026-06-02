@@ -61,8 +61,8 @@ html, body, #root { height: 100%; overflow: hidden; }
 .cal-day-hdr.today .cal-day-name { color: #1A6BBF; }
 .cal-day-date { font-size: 13px; font-weight: 800; color: #212529; }
 .cal-today-badge { margin-left: auto; background: #1A6BBF; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 9px; border-radius: 20px; }
-.cal-grid { display: grid; grid-template-columns: 44px 1fr 1fr; }
-.ctime { background: #f8f9fa; padding: 0 5px; text-align: right; font-size: 9px; font-weight: 600; color: #adb5bd; display: flex; align-items: center; justify-content: flex-end; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; }
+.cal-grid { display: grid; grid-template-columns: min-content 1fr 1fr; }
+.ctime { background: #f8f9fa; padding: 3px 5px 0; text-align: right; font-size: 9px; font-weight: 600; color: #adb5bd; display: flex; align-items: flex-start; justify-content: flex-end; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; }
 .chc { background: #f8f9fa; padding: 6px 2px; text-align: center; font-size: 10px; font-weight: 800; color: #6c757d; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; text-transform: uppercase; letter-spacing: .3px; }
 .chc.c1h { color: #7B4F0A; background: #FFF8E1; }
 .chc.c2h { color: #6A1B9A; background: #f3e5f5; }

@@ -84,7 +84,7 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
     setDelTarget(null)
   }
 
-  const ROW_H = 36   // px por slot de 30 min → turno (span 2) = 72px
+  const ROW_H = 38   // px por slot de 30 min → turno (span 2) = 76px
 
   function renderCell(t: Turno | undefined, dia: number, h: string, cancha: number, date: Date, row: number, spanned: boolean, last: boolean) {
     if (spanned) return null
@@ -171,7 +171,7 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
 
             <div style={{
               display: 'grid',
-              gridTemplateColumns: '44px 1fr 1fr',
+              gridTemplateColumns: 'min-content 1fr 1fr',
               gridTemplateRows: `auto repeat(${HOURS.length}, ${ROW_H}px)`,
             }}>
               {/* Encabezados de cancha — fila 1 */}
