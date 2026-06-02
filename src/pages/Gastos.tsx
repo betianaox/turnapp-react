@@ -77,7 +77,7 @@ export function Gastos({ onOpenGasto, activePeriodo, onPeriodoChange }: Props) {
       </div>
 
       {/* Filtros */}
-      <div className="d-flex gap-2 mb-3 flex-wrap">
+      <div className="filter-bar mb-3">
         <InputGroup size="sm" style={{ maxWidth: 210 }}>
           <InputGroup.Text>🔍</InputGroup.Text>
           <Form.Control placeholder="Buscar..." value={search} onChange={e => setSearch(e.target.value)} />

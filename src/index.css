@@ -152,9 +152,17 @@ html, body, #root { height: 100%; overflow: hidden; }
 .app-toast { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%); background: rgba(30,30,32,.9); color: #fff; border-radius: 20px; padding: 9px 20px; font-size: 13px; font-weight: 600; z-index: 1060; pointer-events: none; white-space: nowrap; transition: opacity .3s; backdrop-filter: blur(8px); }
 
 /* ── FAB ───────────────────────────────────────────────────── */
-.fab { position: fixed; bottom: 20px; right: 18px; width: 54px; height: 54px; border-radius: 50%; background: #1A6BBF; color: #fff; border: none; padding: 0; cursor: pointer; box-shadow: 0 4px 14px rgba(26,107,191,.45); display: flex; align-items: center; justify-content: center; z-index: 50; transition: transform .15s, box-shadow .15s; }
-.fab span { font-size: 36px; padding: 4px 8px 12px; }
-.fab:active { transform: scale(.88); }
+.fab { position: fixed; bottom: 20px; right: 18px; width: 54px; height: 54px; border-radius: 50%; background: #1A6BBF; border: none; padding: 0; cursor: pointer; box-shadow: 0 4px 14px rgba(26,107,191,.45); z-index: 50; transition: transform .15s, box-shadow .15s; }
+.fab::before, .fab::after { content: ''; position: absolute; top: 50%; left: 50%; background: #fff; border-radius: 2px; transform: translate(-50%, -50%); }
+.fab::before { width: 22px; height: 3px; }
+.fab::after  { width: 3px;  height: 22px; }
+.fab:active  { transform: scale(.88); }
+
+/* ── Filter bar — full-width items on mobile ────────────────── */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+@media (max-width: 575px) {
+  .filter-bar > * { flex: 0 0 100% !important; max-width: none !important; width: 100% !important; }
+}
 
 /* ── AlumnoView ────────────────────────────────────────────── */
 .av-header { background: linear-gradient(135deg, #1A6BBF, #0D4F8C); color: #fff; padding: 20px 18px 22px; flex-shrink: 0; }

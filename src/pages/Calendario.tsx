@@ -141,7 +141,7 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
       </div>
 
       {/* Leyenda */}
-      <div className="d-flex flex-wrap mb-3" style={{ fontSize: 11, columnGap: '1rem', rowGap: '0.5rem' }}>
+      <div className="d-flex flex-wrap mb-3" style={{ fontSize: 11, columnGap: '1rem', rowGap: '0.3rem' }}>
         {[
           ['#C4DEFA', 'Grupal'],
           ['#E0F7FA', 'Individual'],

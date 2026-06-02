@@ -198,7 +198,7 @@ function ProfesorApp({ onSignOut }: { onSignOut: () => void }) {
       </div>
 
       {!NO_FAB.includes(page) && (
-        <button className="fab d-md-none" onClick={fabAction}><span>+</span></button>
+        <button className="fab d-md-none" onClick={fabAction} aria-label="Nuevo" />
       )}
 
       <TurnoModal
