@@ -3,7 +3,8 @@ import Form   from 'react-bootstrap/Form'
 import Row    from 'react-bootstrap/Row'
 import Col    from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import { Modal }        from '../components/Modal'
+import { Modal }         from '../components/Modal'
+import { ConfirmModal } from '../components/ConfirmModal'
 import { useStore }     from '../lib/store'
 import type { CatGasto } from '../types'
 
@@ -41,7 +42,8 @@ const blank = (defaultPeriodo?: string): FormState => ({
 export function GastoModal({ open, editId, onClose, onToast, defaultPeriodo }: Props) {
   const { state: { gastos, usuarios }, saveGasto, deleteGasto } = useStore()
   const [form,   setForm]   = useState<FormState>(blank(defaultPeriodo))
-  const [saving, setSaving] = useState(false)
+  const [saving,  setSaving]  = useState(false)
+  const [confirm, setConfirm] = useState(false)
 
   useEffect(() => {
     if (!open) return
@@ -170,10 +172,17 @@ export function GastoModal({ open, editId, onClose, onToast, defaultPeriodo }: P
         {saving ? 'Guardando...' : '💾 Guardar gasto'}
       </Button>
       {editId && (
-        <Button variant="link" className="w-100 mt-1 text-danger small" onClick={handleDelete} disabled={saving}>
+        <Button variant="link" className="w-100 mt-1 text-danger small" onClick={() => setConfirm(true)} disabled={saving}>
           Eliminar gasto
         </Button>
       )}
+      <ConfirmModal
+        open={confirm}
+        title="Eliminar gasto"
+        message="¿Eliminar este gasto? La acción no se puede deshacer."
+        onConfirm={() => { setConfirm(false); handleDelete() }}
+        onCancel={() => setConfirm(false)}
+      />
     </Modal>
   )
 }

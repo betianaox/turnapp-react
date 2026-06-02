@@ -63,11 +63,7 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
 
   function handleDelClick(e: React.MouseEvent, t: Turno, date: Date) {
     e.stopPropagation()
-    if (!t.fijo) {
-      deleteTurno(t.id).then(() => onToast('Turno eliminado')).catch(() => onToast('Error'))
-      return
-    }
-    setDelTarget({ turnoId: t.id, fijo: true, fecha: ds(date) })
+    setDelTarget({ turnoId: t.id, fijo: t.fijo, fecha: ds(date) })
   }
 
   async function deleteSolo() {
@@ -80,6 +76,13 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
   async function deleteTodos() {
     if (!delTarget) return
     try { await deleteTurno(delTarget.turnoId); onToast('Eliminado de todas las semanas') }
+    catch { onToast('Error') }
+    setDelTarget(null)
+  }
+
+  async function deleteUnico() {
+    if (!delTarget) return
+    try { await deleteTurno(delTarget.turnoId); onToast('Turno eliminado') }
     catch { onToast('Error') }
     setDelTarget(null)
   }
@@ -138,7 +141,7 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
       </div>
 
       {/* Leyenda */}
-      <div className="d-flex gap-3 flex-wrap mb-3" style={{ fontSize: 11 }}>
+      <div className="d-flex flex-wrap mb-3" style={{ fontSize: 11, columnGap: '1rem', rowGap: '0.5rem' }}>
         {[
           ['#C4DEFA', 'Grupal'],
           ['#E0F7FA', 'Individual'],
@@ -199,15 +202,27 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
         )
       })}
 
-      {/* Modal eliminar turno fijo */}
+      {/* Modal eliminar turno */}
       <BSModal show={!!delTarget} onHide={() => setDelTarget(null)} centered size="sm">
         <BSModal.Body className="p-4 text-center">
           <p className="fw-bold mb-1">Eliminar turno</p>
-          <p className="text-muted small mb-4">¿Solo este o todos los siguientes?</p>
-          <div className="d-flex gap-2 justify-content-center">
-            <Button variant="outline-secondary" onClick={deleteSolo}>Solo este</Button>
-            <Button variant="danger" onClick={deleteTodos}>Todos</Button>
-          </div>
+          {delTarget?.fijo ? (
+            <>
+              <p className="text-muted small mb-4">¿Solo este o todos los siguientes?</p>
+              <div className="d-flex gap-2 justify-content-center">
+                <Button variant="outline-secondary" onClick={deleteSolo}>Solo este</Button>
+                <Button variant="danger" onClick={deleteTodos}>Todos</Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-muted small mb-4">¿Eliminar este turno? La acción no se puede deshacer.</p>
+              <div className="d-flex gap-2 justify-content-center">
+                <Button variant="outline-secondary" onClick={() => setDelTarget(null)}>Cancelar</Button>
+                <Button variant="danger" onClick={deleteUnico}>Eliminar</Button>
+              </div>
+            </>
+          )}
         </BSModal.Body>
       </BSModal>
     </div>

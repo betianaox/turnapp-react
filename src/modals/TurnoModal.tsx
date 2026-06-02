@@ -4,7 +4,8 @@ import Row    from 'react-bootstrap/Row'
 import Col    from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Badge  from 'react-bootstrap/Badge'
-import { Modal }    from '../components/Modal'
+import { Modal }         from '../components/Modal'
+import { ConfirmModal } from '../components/ConfirmModal'
 import { useStore } from '../lib/store'
 import { HOURS } from '../constants'
 import type { TipoClase } from '../types'
@@ -31,6 +32,7 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
   const [selectedIds,  setSelected]  = useState<string[]>([])
   const [pickerSearch, setPickerSearch] = useState('')
   const [saving,       setSaving]    = useState(false)
+  const [confirm,      setConfirm]   = useState(false)
   const searchRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -294,7 +296,7 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
       {/* ── Botones de acción ──────────────────────────────── */}
       {isEditingBloqueo ? (
         /* Editando un bloqueo: solo desbloquear */
-        <Button variant="outline-secondary" className="w-100 fw-bold" onClick={handleDelete} disabled={saving}>
+        <Button variant="outline-secondary" className="w-100 fw-bold" onClick={() => setConfirm(true)} disabled={saving}>
           {saving ? 'Procesando...' : '🔓 Desbloquear cancha'}
         </Button>
       ) : (
@@ -311,12 +313,20 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
 
           {/* Eliminar — solo al editar */}
           {editId && (
-            <Button variant="link" className="w-100 mt-1 text-danger small" onClick={handleDelete} disabled={saving}>
+            <Button variant="link" className="w-100 mt-1 text-danger small" onClick={() => setConfirm(true)} disabled={saving}>
               Eliminar turno
             </Button>
           )}
         </>
       )}
+      <ConfirmModal
+        open={confirm}
+        title={isEditingBloqueo ? 'Desbloquear cancha' : 'Eliminar turno'}
+        message={isEditingBloqueo ? '¿Confirmar desbloqueo de la cancha?' : '¿Eliminar este turno? La acción no se puede deshacer.'}
+        onConfirm={() => { setConfirm(false); handleDelete() }}
+        onCancel={() => setConfirm(false)}
+        confirmLabel={isEditingBloqueo ? 'Desbloquear' : 'Eliminar'}
+      />
     </Modal>
   )
 }

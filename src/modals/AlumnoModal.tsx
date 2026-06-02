@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import Form   from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { Modal }       from '../components/Modal'
+import { Modal }         from '../components/Modal'
+import { ConfirmModal } from '../components/ConfirmModal'
 import { useStore }    from '../lib/store'
 import { toTitleCase } from '../lib/utils'
 
@@ -22,7 +23,8 @@ const blank = (): FormState => ({ nombre: '', tel: '' })
 export function AlumnoModal({ open, editId, onClose, onToast }: Props) {
   const { state: { alumnos }, saveAlumno, deleteAlumno } = useStore()
   const [form,   setForm]   = useState<FormState>(blank())
-  const [saving, setSaving] = useState(false)
+  const [saving,  setSaving]  = useState(false)
+  const [confirm, setConfirm] = useState(false)
 
   useEffect(() => {
     if (!open) return
@@ -103,10 +105,17 @@ export function AlumnoModal({ open, editId, onClose, onToast }: Props) {
       </Button>
 
       {editId && (
-        <Button variant="outline-danger" className="w-100 mt-2" onClick={handleDelete} disabled={saving}>
+        <Button variant="outline-danger" className="w-100 mt-2" onClick={() => setConfirm(true)} disabled={saving}>
           Eliminar alumno
         </Button>
       )}
+      <ConfirmModal
+        open={confirm}
+        title="Eliminar alumno"
+        message="¿Eliminar este alumno? Se quitará de todos sus turnos y la acción no se puede deshacer."
+        onConfirm={() => { setConfirm(false); handleDelete() }}
+        onCancel={() => setConfirm(false)}
+      />
     </Modal>
   )
 }

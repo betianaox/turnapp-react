@@ -6,9 +6,10 @@ import Button     from 'react-bootstrap/Button'
 import Pagination from 'react-bootstrap/Pagination'
 import Badge      from 'react-bootstrap/Badge'
 import Card       from 'react-bootstrap/Card'
-import { useStore } from '../lib/store'
-import { useAuth }  from '../lib/auth'
-import { ff }       from '../lib/utils'
+import { useStore }       from '../lib/store'
+import { useAuth }        from '../lib/auth'
+import { ff }             from '../lib/utils'
+import { ConfirmModal }   from '../components/ConfirmModal'
 
 const PER_PAGE = 8
 
@@ -20,6 +21,7 @@ export function Accesos({ onToast }: Props) {
 
   const [search,      setSearch]      = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+  const [confirmUid,  setConfirmUid]  = useState<string | null>(null)
 
   useEffect(() => setCurrentPage(1), [search])
 
@@ -139,7 +141,7 @@ export function Accesos({ onToast }: Props) {
                       <Button
                         variant="outline-danger"
                         size="sm"
-                        onClick={() => handleDelete(u.uid, u.displayName || u.email)}
+                        onClick={() => setConfirmUid(u.uid)}
                       >
                         🗑
                       </Button>
@@ -201,7 +203,7 @@ export function Accesos({ onToast }: Props) {
                           <Button
                             variant="outline-danger"
                             size="sm"
-                            onClick={() => handleDelete(u.uid, u.displayName || u.email)}
+                            onClick={() => setConfirmUid(u.uid)}
                           >
                             🗑
                           </Button>
@@ -233,6 +235,13 @@ export function Accesos({ onToast }: Props) {
           )}
         </>
       )}
+      <ConfirmModal
+        open={!!confirmUid}
+        title="Eliminar usuario"
+        message="¿Eliminar este usuario? La acción no se puede deshacer."
+        onConfirm={() => { const uid = confirmUid!; setConfirmUid(null); handleDelete(uid, '') }}
+        onCancel={() => setConfirmUid(null)}
+      />
     </>
   )
 }

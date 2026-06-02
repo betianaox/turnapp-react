@@ -11,7 +11,8 @@ import { useStore }                                          from '../lib/store'
 import { usePrecios, CLASES_POR_TIPO, type PreciosConfig }   from '../lib/config'
 import { usePagos, getPagoEstado, type PagoRecord } from '../lib/pagos'
 import { ff, fp, periodoLabel }                              from '../lib/utils'
-import { DateFieldES }                                      from '../components/DateFieldES'
+import { DateFieldES }    from '../components/DateFieldES'
+import { ConfirmModal }  from '../components/ConfirmModal'
 
 interface Props { onToast: (msg: string) => void; newTrigger?: number; onNewHandled?: () => void; onPagoPaid?: (id: string) => void }
 
@@ -169,7 +170,8 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
   const [periodo, setPeriodo] = useState(currentMonth)
   const [estado,  setEstado]  = useState<'all'|'pendiente'|'vencido'|'pagado'>('all')
   // modal: null=closed, 'new'=alta, PagoRecord=editar
-  const [modal,   setModal]   = useState<null | 'new' | PagoRecord>(null)
+  const [modal,      setModal]      = useState<null | 'new' | PagoRecord>(null)
+  const [confirmId,  setConfirmId]  = useState<string | null>(null)
 
   // FAB / header "+ Nuevo" → abre modal de alta (y resetea el trigger)
   useEffect(() => {
@@ -353,11 +355,18 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
             fechaPago:   editData.fechaPago  ?? '',
             periodo:     editData.periodo    ?? '',
           } : { periodo }}
-          onDelete={editData ? () => { handleDelete(editData.id); setModal(null) } : undefined}
+          onDelete={editData ? () => setConfirmId(editData.id) : undefined}
           alumnos={alumnos}
           usuarios={usuarios}
         />
       )}
+      <ConfirmModal
+        open={!!confirmId}
+        title="Eliminar cobro"
+        message="¿Eliminar este cobro? La acción no se puede deshacer."
+        onConfirm={() => { const id = confirmId!; setConfirmId(null); setModal(null); handleDelete(id) }}
+        onCancel={() => setConfirmId(null)}
+      />
     </>
   )
 }
