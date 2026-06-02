@@ -152,10 +152,10 @@ html, body, #root { height: 100%; overflow: hidden; }
 .app-toast { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%); background: rgba(30,30,32,.9); color: #fff; border-radius: 20px; padding: 9px 20px; font-size: 13px; font-weight: 600; z-index: 1060; pointer-events: none; white-space: nowrap; transition: opacity .3s; backdrop-filter: blur(8px); }
 
 /* ── FAB ───────────────────────────────────────────────────── */
-.fab { position: fixed; bottom: 20px; right: 18px; width: 54px; height: 54px; border-radius: 50%; background: #1A6BBF; border: none; padding: 0; cursor: pointer; box-shadow: 0 4px 14px rgba(26,107,191,.45); z-index: 50; transition: transform .15s, box-shadow .15s; }
+.fab { position: fixed; bottom: 20px; right: 18px; width: 48px; height: 48px; border-radius: 50%; background: #1A6BBF; border: none; padding: 0; cursor: pointer; box-shadow: 0 4px 14px rgba(26,107,191,.45); z-index: 50; transition: transform .15s, box-shadow .15s; }
 .fab::before, .fab::after { content: ''; position: absolute; top: 50%; left: 50%; background: #fff; border-radius: 2px; transform: translate(-50%, -50%); }
-.fab::before { width: 22px; height: 3px; }
-.fab::after  { width: 3px;  height: 22px; }
+.fab::before { width: 18px; height: 2px; }
+.fab::after  { width: 2px;  height: 18px; }
 .fab:active  { transform: scale(.88); }
 
 /* ── Filter bar — full-width items on mobile ────────────────── */
