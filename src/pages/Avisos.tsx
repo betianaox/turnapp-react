@@ -41,16 +41,20 @@ function WhatsAppIcon() {
   )
 }
 
+const CUR_PERIODO = new Date().toISOString().substring(0, 7)
+
 export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) {
   const { state: { alumnos } } = useStore()
   const { pagos, loading }     = usePagos()
 
   const [editedMsgs, setEditedMsgs] = useState<Record<string, string>>({})
+  const [periodo,    setPeriodo]    = useState(CUR_PERIODO)
 
   if (loading) return <div className="text-center py-4 text-muted">Cargando...</div>
 
   const avisos = pagos
     .filter(p => !p.fechaPago && (p.proximoPago < TODAY || p.proximoPago === TOMORROW))
+    .filter(p => !periodo || p.periodo === periodo)
     .map(p => {
       const alumno = alumnos.find(a => a.id === p.alumnoId)
       if (!alumno) return null
@@ -77,6 +81,16 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
         {avisos.length > 0 && (
           <Button variant="outline-primary" size="sm" onClick={copiarTodos}>📋 Copiar todos</Button>
         )}
+      </div>
+
+      <div className="filter-bar mb-3">
+        <div className="filter-auto d-flex align-items-center gap-1">
+          <Form.Control type="month" size="sm" value={periodo}
+            onChange={e => setPeriodo(e.target.value)} />
+          {periodo && (
+            <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>
+          )}
+        </div>
       </div>
 
       <hr className="section-sep" />

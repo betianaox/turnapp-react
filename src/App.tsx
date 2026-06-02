@@ -85,8 +85,10 @@ function ProfesorApp({ onSignOut }: { onSignOut: () => void }) {
   const toast = (msg: string) => toastRef.current?.show(msg)
   const _now = new Date().toISOString().split('T')[0]
   const _tom = (() => { const d = new Date(); d.setDate(d.getDate()+1); return d.toISOString().split('T')[0] })()
+  const _curPeriodo = new Date().toISOString().substring(0, 7)
   const avisosCount = pagos.filter(p =>
-    !p.fechaPago && (p.proximoPago < _now || p.proximoPago === _tom) && !vistos.has(p.id)
+    !p.fechaPago && (p.proximoPago < _now || p.proximoPago === _tom) &&
+    !vistos.has(p.id) && p.periodo === _curPeriodo
   ).length
 
   const changePage = useCallback((id: string | null) => {
