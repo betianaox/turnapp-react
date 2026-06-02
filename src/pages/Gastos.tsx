@@ -93,7 +93,7 @@ export function Gastos({ onOpenGasto, activePeriodo, onPeriodoChange }: Props) {
 
         <Form.Select size="sm" style={{ maxWidth: 155 }} value={filterUser} onChange={e => setFilterUser(e.target.value)}>
           <option value="">Todos los usuarios</option>
-          {[...usuarios].sort((a,b) => (a.displayName||a.email).localeCompare(b.displayName||b.email)).map(u => (
+          {[...usuarios].filter(u => (u.rol ?? 'profe') === 'profe').sort((a,b) => (a.displayName||a.email).localeCompare(b.displayName||b.email)).map(u => (
             <option key={u.uid} value={u.uid}>{u.displayName || u.email}</option>
           ))}
         </Form.Select>

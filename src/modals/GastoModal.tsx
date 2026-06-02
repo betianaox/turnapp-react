@@ -100,7 +100,7 @@ export function GastoModal({ open, editId, onClose, onToast, defaultPeriodo }: P
 
   // Solo profes en el selector — los dev no se asignan a sí mismos en gastos
   const sortedUsuarios = [...usuarios]
-    .filter(u => (u.rol ?? 'profe') !== 'dev')
+    .filter(u => (u.rol ?? 'profe') === 'profe')
     .sort((a, b) => (a.displayName || a.email).localeCompare(b.displayName || b.email))
 
   return (

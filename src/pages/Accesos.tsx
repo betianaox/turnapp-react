@@ -25,11 +25,12 @@ export function Accesos({ onToast }: Props) {
 
   useEffect(() => setCurrentPage(1), [search])
 
-  const sorted = [...usuarios].sort((a, b) => {
-    // activos primero, luego por nombre
-    if (a.activo !== b.activo) return a.activo ? -1 : 1
-    return a.displayName.localeCompare(b.displayName)
-  })
+  const sorted = [...usuarios]
+    .filter(u => (u.rol ?? 'profe') !== 'dev')
+    .sort((a, b) => {
+      if (a.activo !== b.activo) return a.activo ? -1 : 1
+      return a.displayName.localeCompare(b.displayName)
+    })
 
   const filtered = sorted.filter(u =>
     u.displayName.toLowerCase().includes(search.toLowerCase()) ||
@@ -128,7 +129,6 @@ export function Accesos({ onToast }: Props) {
                         value={u.rol ?? 'profe'}
                         onChange={e => setUsuarioRol(u.uid, e.target.value as 'dev'|'profe')}>
                         <option value="profe">Profe</option>
-                        <option value="dev">Dev</option>
                       </Form.Select>
                       <Button
                         variant={u.activo ? 'outline-secondary' : 'success'}

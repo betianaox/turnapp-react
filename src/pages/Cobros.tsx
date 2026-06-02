@@ -77,7 +77,7 @@ function CobroModal({ open, onClose, onSave, onDelete, alumnoId, initialData, al
   const sortedAlumnos = [...alumnos].sort((a, b) => a.nombre.localeCompare(b.nombre))
   // Solo profes en el selector de cobros — los dev no se asignan a sí mismos
   const sortedUsers   = [...usuarios]
-    .filter(u => (u.rol ?? 'profe') !== 'dev')
+    .filter(u => (u.rol ?? 'profe') === 'profe')
     .sort((a, b) => (a.displayName||a.email).localeCompare(b.displayName||b.email))
 
   return (
