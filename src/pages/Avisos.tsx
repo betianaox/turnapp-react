@@ -85,7 +85,7 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
           <div className="small mt-1">No hay pagos vencidos ni por vencer mañana</div>
         </div>
       ) : (
-        <Row className="g-2">
+        <Row className="g-3">
         {avisos.map(({ p, alumno, estado }) => {
           const defaultMsg = buildMsg(alumno.nombre, p.monto, p.proximoPago, estado)
           const msg        = editedMsgs[p.id] ?? defaultMsg
