@@ -71,9 +71,13 @@ export function Reportes() {
 
   const balanceTotal = ingresosMes - totalGastosMes
 
+  // Todos los registros del período (cobrados + pendientes + vencidos)
+  const todosPagosPeriodo = pagos.filter(p =>
+    periodo ? p.periodo === periodo : (p.fechaPago?.startsWith(mes) || p.proximoPago?.startsWith(mes))
+  )
+
   // ── Detalle pagos cobrados ───────────────────────────────────
-  const pagosDelMes = pagos
-    .filter(p => periodo ? p.periodo === periodo : p.fechaPago?.startsWith(mes))
+  const pagosDelMes = todosPagosPeriodo
     .filter(p => !!p.fechaPago)
     .sort((a, b) => a.fechaPago!.localeCompare(b.fechaPago!))
 
@@ -108,7 +112,7 @@ export function Reportes() {
   const alumnosPorEstadoData = (() => {
     const counts = { pagado: 0, pendiente: 0, vencido: 0, sinCobro: 0 }
     alumnosConTurnoFijo.forEach(a => {
-      const pago = pagosDelMes.find(p => p.alumnoId === a.id)
+      const pago = todosPagosPeriodo.find(p => p.alumnoId === a.id)
       if (!pago) { counts.sinCobro++ }
       else {
         const e = getPagoEstado(pago)
