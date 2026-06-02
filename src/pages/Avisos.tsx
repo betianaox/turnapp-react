@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import Button  from 'react-bootstrap/Button'
-import Badge   from 'react-bootstrap/Badge'
-import Form    from 'react-bootstrap/Form'
-import Row     from 'react-bootstrap/Row'
-import Col     from 'react-bootstrap/Col'
+import Button     from 'react-bootstrap/Button'
+import Badge      from 'react-bootstrap/Badge'
+import Form       from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
+import Row        from 'react-bootstrap/Row'
+import Col        from 'react-bootstrap/Col'
 import { useStore }                from '../lib/store'
 import { usePagos, getPagoEstado } from '../lib/pagos'
 import { ff, fp }                  from '../lib/utils'
@@ -49,6 +50,7 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
 
   const [editedMsgs, setEditedMsgs] = useState<Record<string, string>>({})
   const [periodo,    setPeriodo]    = useState(CUR_PERIODO)
+  const [query,      setQuery]      = useState('')
 
   if (loading) return <div className="text-center py-4 text-muted">Cargando...</div>
 
@@ -61,6 +63,7 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
       return { p, alumno, estado: getPagoEstado(p) }
     })
     .filter(Boolean)
+    .filter(r => !query || r!.alumno.nombre.toLowerCase().includes(query.toLowerCase()))
     .sort((a, b) => a!.p.proximoPago.localeCompare(b!.p.proximoPago)) as NonNullable<{
       p: typeof pagos[0]; alumno: typeof alumnos[0]; estado: ReturnType<typeof getPagoEstado>
     }>[]
@@ -91,6 +94,12 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
             <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>
           )}
         </div>
+        <InputGroup size="sm" className="search-bar">
+          <InputGroup.Text>🔍</InputGroup.Text>
+          <Form.Control placeholder="Buscar alumno..." value={query}
+            onChange={e => setQuery(e.target.value)} />
+          {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
+        </InputGroup>
       </div>
 
       <hr className="section-sep" />
