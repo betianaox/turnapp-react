@@ -247,7 +247,7 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
                     <Form.Check type="checkbox" readOnly checked={sel}
                       tabIndex={-1} className="flex-shrink-0 mb-0"
                       style={{ pointerEvents: 'none' }} />
-                    <span className={`small ${sel ? 'fw-bold' : ''}`}>{nombre}</span>
+                    <span className="small" style={{ fontWeight: sel ? 500 : 400 }}>{nombre}</span>
                     {conflict && (
                       <span className="text-danger ms-auto" style={{ fontSize: 10 }}>C{conflict.cancha}</span>
                     )}
