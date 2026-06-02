@@ -60,7 +60,7 @@ export function Accesos({ onToast }: Props) {
   const UserAvatar = ({ u }: { u: typeof rows[0] }) => (
     <div
       className="rounded-circle overflow-hidden flex-shrink-0 d-flex align-items-center justify-content-center fw-bold"
-      style={{ width: 32, height: 32, fontSize: 12, background: u.activo ? '#e8f2fc' : '#f0f0f0', color: u.activo ? '#1A6BBF' : '#aaa' }}
+      style={{ width: 32, height: 32, fontSize: 13, background: u.activo ? '#e8f2fc' : '#f0f0f0', color: u.activo ? '#1A6BBF' : '#aaa' }}
     >
       {u.photoURL
         ? <img src={u.photoURL} width={32} height={32} referrerPolicy="no-referrer" style={{ objectFit: 'cover', display: 'block' }} alt="" />
@@ -118,12 +118,12 @@ export function Accesos({ onToast }: Props) {
                     <div className="d-flex align-items-center gap-2 mb-2">
                       <UserAvatar u={u} />
                       <div className="min-w-0 flex-grow-1">
-                        <div className="fw-semibold text-truncate" style={{ fontSize: 14 }}>
+                        <div className="fw-semibold text-truncate" style={{ fontSize: 15 }}>
                           {u.displayName || '—'}
-                          {isMe && <Badge bg="light" text="dark" className="ms-2 fw-normal border" style={{ fontSize: 9 }}>vos</Badge>}
+                          {isMe && <Badge bg="light" text="dark" className="ms-2 fw-normal border" style={{ fontSize: 10 }}>vos</Badge>}
                         </div>
-                        <small className="text-muted d-block text-truncate" style={{ fontSize: 12 }}>{u.email}</small>
-                        <small className="text-muted" style={{ fontSize: 11 }}>Últ. acceso: {ff(u.ultimoLogin)}</small>
+                        <small className="text-muted d-block text-truncate" style={{ fontSize: 13 }}>{u.email}</small>
+                        <small className="text-muted" style={{ fontSize: 12 }}>Últ. acceso: {ff(u.ultimoLogin)}</small>
                       </div>
                       <ActiveBadge activo={u.activo} />
                     </div>
