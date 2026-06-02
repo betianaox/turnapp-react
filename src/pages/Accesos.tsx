@@ -197,7 +197,7 @@ export function Accesos({ onToast }: Props) {
                             value={u.rol ?? 'profe'}
                             onChange={e => setUsuarioRol(u.uid, e.target.value as 'dev'|'profe')}>
                             <option value="profe">Profe</option>
-                            {isDev && <option value="dev">Dev</option>}
+                            {(isDev || (u.rol ?? 'profe') === 'dev') && <option value="dev">Dev</option>}
                           </Form.Select>
                           <Button
                             variant={u.activo ? 'outline-secondary' : 'success'}
