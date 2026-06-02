@@ -90,19 +90,21 @@ export function Gastos({ onOpenGasto, activePeriodo, onPeriodoChange }: Props) {
           {search && <Button variant="outline-secondary" onClick={() => setSearch('')}>✕</Button>}
         </InputGroup>
 
-        <Form.Select size="sm" style={{ maxWidth: 155 }} value={filterUser} onChange={e => setFilterUser(e.target.value)}>
-          <option value="">Todos los usuarios</option>
-          {[...usuarios].filter(u => (u.rol ?? 'profe') === 'profe').sort((a,b) => (a.displayName||a.email).localeCompare(b.displayName||b.email)).map(u => (
-            <option key={u.uid} value={u.uid}>{u.displayName || u.email}</option>
-          ))}
-        </Form.Select>
+        <div className="d-flex gap-2">
+          <Form.Select size="sm" style={{ flex: 1, minWidth: 0 }} value={filterUser} onChange={e => setFilterUser(e.target.value)}>
+            <option value="">Todos los usuarios</option>
+            {[...usuarios].filter(u => (u.rol ?? 'profe') === 'profe').sort((a,b) => (a.displayName||a.email).localeCompare(b.displayName||b.email)).map(u => (
+              <option key={u.uid} value={u.uid}>{u.displayName || u.email}</option>
+            ))}
+          </Form.Select>
 
-        <Form.Select size="sm" style={{ maxWidth: 130 }} value={filterCat} onChange={e => setFilterCat(e.target.value as CatGasto | '')}>
-          <option value="">Categorías</option>
-          <option value="cancha">💸 Cancha</option>
-          <option value="bar">🍺 Bar</option>
-          <option value="otro">📦 Otro</option>
-        </Form.Select>
+          <Form.Select size="sm" style={{ flex: 1, minWidth: 0 }} value={filterCat} onChange={e => setFilterCat(e.target.value as CatGasto | '')}>
+            <option value="">Categorías</option>
+            <option value="cancha">💸 Cancha</option>
+            <option value="bar">🍺 Bar</option>
+            <option value="otro">📦 Otro</option>
+          </Form.Select>
+        </div>
       </div>
       <hr className="section-sep" />
 
