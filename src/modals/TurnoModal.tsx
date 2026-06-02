@@ -247,7 +247,7 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
                     <Form.Check type="checkbox" readOnly checked={sel}
                       tabIndex={-1} className="flex-shrink-0 mb-0"
                       style={{ pointerEvents: 'none' }} />
-                    <span className="small" style={{ fontWeight: sel ? 500 : 400 }}>{nombre}</span>
+                    <span className="small text-uppercase" style={{ fontWeight: sel ? 500 : 400 }}>{nombre}</span>
                     {conflict && (
                       <span className="text-danger ms-auto" style={{ fontSize: 10 }}>C{conflict.cancha}</span>
                     )}
@@ -272,7 +272,7 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
                   style={{ cursor: 'pointer', fontSize: 12 }}
                   onClick={() => toggleAlumno(id)}
                 >
-                  {a.nombre} ✕
+                  {a.nombre.toUpperCase()} ✕
                 </Badge>
               )
             })}
