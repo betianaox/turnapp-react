@@ -1,18 +1,17 @@
 import { useState } from 'react'
-import Alert    from 'react-bootstrap/Alert'
-import Button   from 'react-bootstrap/Button'
-import Badge    from 'react-bootstrap/Badge'
-import Form     from 'react-bootstrap/Form'
+import Button  from 'react-bootstrap/Button'
+import Badge   from 'react-bootstrap/Badge'
+import Form    from 'react-bootstrap/Form'
 import { useStore }                from '../lib/store'
 import { usePagos, getPagoEstado } from '../lib/pagos'
 import { ff, fp }                  from '../lib/utils'
 
 interface Props {
-  onOpenAlumno:     (id: string) => void
-  onToast:          (msg: string) => void
-  vistos:           Set<string>
-  onToggleVisto:    (id: string) => void
-  onLimpiarVistos:  () => void
+  onOpenAlumno:    (id: string) => void
+  onToast:         (msg: string) => void
+  vistos:          Set<string>
+  onToggleVisto:   (id: string) => void
+  onLimpiarVistos: () => void
 }
 
 const DEFAULT_WA = '543416848972'
@@ -30,6 +29,15 @@ function buildMsg(nombre: string, monto: number, proximoPago: string, estado: st
   return `Hola ${nombre}! 👋 Tu cuota ${cuando} (${ff(proximoPago)}). El monto es ${fp(monto)}. Por favor coordiná el pago. ¡Gracias!`
 }
 
+function WhatsAppIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+      width="15" height="15" style={{ display: 'block', flexShrink: 0 }}>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  )
+}
+
 export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) {
   const { state: { alumnos } } = useStore()
   const { pagos, loading }     = usePagos()
@@ -38,11 +46,8 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
 
   if (loading) return <div className="text-center py-4 text-muted">Cargando...</div>
 
-  const todosLosAvisos = pagos
+  const avisos = pagos
     .filter(p => !p.fechaPago && (p.proximoPago < TODAY || p.proximoPago === TOMORROW))
-
-  // Los no vistos se cuentan para el badge
-  const avisos = todosLosAvisos
     .map(p => {
       const alumno = alumnos.find(a => a.id === p.alumnoId)
       if (!alumno) return null
@@ -82,65 +87,97 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
           const defaultMsg = buildMsg(alumno.nombre, p.monto, p.proximoPago, estado)
           const msg        = editedMsgs[p.id] ?? defaultMsg
           const url        = waUrl(alumno.tel ?? '', msg)
-          const variant    = estado === 'vencido' ? 'danger' : 'warning'
+          const isVencido  = estado === 'vencido'
+          const visto      = vistos.has(p.id)
 
-          const visto = vistos.has(p.id)
           return (
-            <Alert key={p.id} variant={variant} className="mb-3" style={{ opacity: visto ? .5 : 1 }}>
-              <div className="d-flex align-items-start justify-content-between gap-2 mb-1">
-                <Alert.Heading className="fs-6 mb-0" style={{ cursor: 'pointer' }} onClick={() => onOpenAlumno(alumno.id)}>
-                  {estado === 'vencido' ? '⚠️' : '⏰'} <span className="text-uppercase">{alumno.nombre}</span>
-                </Alert.Heading>
+            <div
+              key={p.id}
+              style={{
+                borderLeft: `3px solid ${isVencido ? '#dc3545' : '#ffc107'}`,
+                background: visto
+                  ? '#f8f9fa'
+                  : isVencido ? '#fff5f5' : '#fffdf0',
+                borderRadius: 6,
+                padding: '8px 10px',
+                marginBottom: 8,
+                opacity: visto ? 0.55 : 1,
+                transition: 'opacity .2s',
+              }}
+            >
+              {/* Cabecera */}
+              <div className="d-flex align-items-center justify-content-between gap-2 mb-1">
+                <span
+                  className="fw-bold text-uppercase"
+                  style={{ fontSize: 12, cursor: 'pointer', letterSpacing: .3 }}
+                  onClick={() => onOpenAlumno(alumno.id)}
+                >
+                  {isVencido ? '⚠️' : '⏰'} {alumno.nombre}
+                </span>
                 <div className="d-flex align-items-center gap-2 flex-shrink-0">
-                  <Badge bg={variant}>{estado === 'vencido' ? 'Vencido' : 'Vence mañana'}</Badge>
-                  {/* Ojo: visto / no visto */}
-                  <button onClick={() => onToggleVisto(p.id)}
-                    title={visto ? 'Marcar como no visto' : 'Marcar como visto'}
-                    style={{ background:'none', border:'none', cursor:'pointer', fontSize:16, padding:0, lineHeight:1, opacity: visto ? .6 : 1 }}>
-                    {visto ? '🙈' : '👁️'}
-                  </button>
-                  {/* Descartar — marca como visto */}
+                  <Badge bg={isVencido ? 'danger' : 'warning'} text={isVencido ? undefined : 'dark'}
+                    style={{ fontSize: 9 }}>
+                    {isVencido ? 'Vencido' : 'Mañana'}
+                  </Badge>
                   <button
-                    onClick={() => { if (!visto) onToggleVisto(p.id) }}
-                    title="Descartar aviso"
-                    style={{ background:'none', border:'none', cursor:'pointer', fontSize:14, padding:0, lineHeight:1, color:'#dc3545', opacity: visto ? .3 : 1 }}>
-                    🗑️
+                    onClick={() => onToggleVisto(p.id)}
+                    title={visto ? 'Marcar como no visto' : 'Marcar como visto'}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, padding: 0, lineHeight: 1, opacity: visto ? .5 : 1 }}
+                  >
+                    {visto ? '🙈' : '👁️'}
                   </button>
                 </div>
               </div>
 
-              <small className="d-block mb-2 opacity-75">
+              {/* Monto y fecha */}
+              <div style={{ fontSize: 11, color: '#6c757d', marginBottom: 6 }}>
                 {fp(p.monto)} · vto. <strong>{ff(p.proximoPago)}</strong>
-              </small>
+              </div>
 
               {/* Mensaje editable */}
               <Form.Control
                 as="textarea"
-                rows={3}
+                rows={2}
                 value={msg}
                 onChange={e => setEditedMsgs(prev => ({ ...prev, [p.id]: e.target.value }))}
-                className="mb-2"
-                style={{ fontSize: 12, background: 'rgba(255,255,255,.65)', border: 'none', resize: 'vertical' }}
+                style={{
+                  fontSize: 11,
+                  background: 'rgba(255,255,255,.75)',
+                  border: '1px solid rgba(0,0,0,.08)',
+                  resize: 'vertical',
+                  marginBottom: editedMsgs[p.id] && editedMsgs[p.id] !== defaultMsg ? 2 : 6,
+                }}
               />
               {editedMsgs[p.id] && editedMsgs[p.id] !== defaultMsg && (
                 <button
                   onClick={() => setEditedMsgs(prev => { const n = { ...prev }; delete n[p.id]; return n })}
-                  style={{ background: 'none', border: 'none', fontSize: 11, color: '#6c757d', cursor: 'pointer', padding: '0 0 6px 0' }}
+                  style={{ background: 'none', border: 'none', fontSize: 10, color: '#6c757d', cursor: 'pointer', padding: '0 0 6px 0', display: 'block' }}
                 >
-                  ↺ Restaurar mensaje original
+                  ↺ Restaurar
                 </button>
               )}
 
+              {/* Acciones */}
               <div className="d-flex gap-2">
-                <Button variant="light" size="sm"
-                  onClick={() => navigator.clipboard.writeText(msg).then(() => onToast('¡Copiado!'))}>
+                <Button
+                  variant="outline-secondary"
+                  size="sm"
+                  style={{ fontSize: 11, padding: '3px 9px' }}
+                  onClick={() => navigator.clipboard.writeText(msg).then(() => onToast('¡Copiado!'))}
+                >
                   📋 Copiar
                 </Button>
                 <a href={url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
-                  <Button variant="success" size="sm">💬 WhatsApp</Button>
+                  <Button
+                    variant="success"
+                    size="sm"
+                    style={{ fontSize: 11, padding: '3px 10px', display: 'flex', alignItems: 'center', gap: 5 }}
+                  >
+                    <WhatsAppIcon /> Enviar
+                  </Button>
                 </a>
               </div>
-            </Alert>
+            </div>
           )
         })
       )}
