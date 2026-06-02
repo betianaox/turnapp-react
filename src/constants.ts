@@ -23,6 +23,8 @@ export const TIPO_LBL: Record<string, string> = {
 }
 
 
+export const AVISOS_TITLE = 'Avisos de vencimiento'
+
 export const DAYS = ['', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 export const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
 

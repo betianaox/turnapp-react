@@ -272,6 +272,7 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
           <option value="pagado">Pagados ({counts.pagado})</option>
         </Form.Select>
       </div>
+      <hr className="section-sep" />
 
       {rows.length === 0 ? (
         <div className="text-center py-5 text-muted">

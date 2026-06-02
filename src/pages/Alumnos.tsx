@@ -55,6 +55,7 @@ export function Alumnos({ onOpenAlumno }: Props) {
         />
         {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
       </InputGroup>
+      <hr className="section-sep" />
 
       {list.length === 0 ? (
         <div className="text-center py-5 text-muted">

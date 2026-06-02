@@ -101,6 +101,7 @@ export function Accesos({ onToast }: Props) {
         />
         {search && <Button variant="outline-secondary" onClick={() => setSearch('')}>✕</Button>}
       </InputGroup>
+      <hr className="section-sep" />
 
       {filtered.length === 0 ? (
         <p className="text-muted text-center py-4">Sin resultados para "{search}"</p>

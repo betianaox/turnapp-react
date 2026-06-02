@@ -104,6 +104,7 @@ export function Gastos({ onOpenGasto, activePeriodo, onPeriodoChange }: Props) {
           <option value="otro">📦 Otro</option>
         </Form.Select>
       </div>
+      <hr className="section-sep" />
 
       {sorted.length === 0 ? (
         <div className="text-center py-5 text-muted">

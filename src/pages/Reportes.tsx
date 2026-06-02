@@ -190,6 +190,8 @@ export function Reportes() {
         </div>
       </div>
 
+      <hr className="section-sep" />
+
       {/* ── VISTA: RESUMEN ── */}
       {vista === 'resumen' && (
         <>

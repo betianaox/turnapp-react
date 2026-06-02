@@ -7,6 +7,7 @@ import Col     from 'react-bootstrap/Col'
 import { useStore }                from '../lib/store'
 import { usePagos, getPagoEstado } from '../lib/pagos'
 import { ff, fp }                  from '../lib/utils'
+import { AVISOS_TITLE }            from '../constants'
 
 interface Props {
   onOpenAlumno:    (id: string) => void
@@ -72,11 +73,13 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
   return (
     <>
       <div className="d-flex align-items-center justify-content-between mb-3">
-        <h6 className="fw-bold mb-0">Avisos de pago</h6>
+        <h6 className="fw-bold mb-0">{AVISOS_TITLE}</h6>
         {avisos.length > 0 && (
           <Button variant="outline-primary" size="sm" onClick={copiarTodos}>📋 Copiar todos</Button>
         )}
       </div>
+
+      <hr className="section-sep" />
 
       {avisos.length === 0 ? (
         <div className="text-center py-5 text-muted">
