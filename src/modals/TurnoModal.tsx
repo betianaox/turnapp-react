@@ -85,7 +85,12 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
   }
 
   // Alumnos ordenados y filtrados
-  const sortedAlumnos = [...alumnos].sort((a, b) => a.nombre.localeCompare(b.nombre))
+  const sortedAlumnos = [...alumnos].sort((a, b) => {
+    const aSel = selectedIds.includes(a.id) ? 0 : 1
+    const bSel = selectedIds.includes(b.id) ? 0 : 1
+    if (aSel !== bSel) return aSel - bSel
+    return a.nombre.localeCompare(b.nombre)
+  })
   const filteredAlumnos = pickerSearch.trim()
     ? sortedAlumnos.filter(a => a.nombre.toLowerCase().includes(pickerSearch.toLowerCase()))
     : sortedAlumnos
