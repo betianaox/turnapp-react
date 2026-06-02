@@ -159,7 +159,7 @@ html, body, #root { height: 100%; overflow: hidden; }
 .fab:active  { transform: scale(.88); }
 
 /* ── Section separator — between filters and content ────────── */
-.section-sep { border: none; border-top: 2px solid #dee2e6; margin: 0 0 1rem; }
+.section-sep { border: none; border-top: 1px solid #e9ecef; margin: 0 0 1rem; }
 
 /* ── Search bar — constrained width on desktop ──────────────── */
 .search-bar { max-width: none; }
