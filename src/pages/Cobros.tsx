@@ -196,20 +196,6 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
     const per   = data.periodo || undefined
 
     const isEdit   = modal !== null && typeof modal === 'object'
-    const editId   = isEdit && modal !== null && typeof modal === 'object' ? modal.id : undefined
-
-    // Validar: un solo cobro por alumno por período (en alta y al editar)
-    if (per) {
-      const dup = pagos.find(p =>
-        p.alumnoId === data.alumnoId &&
-        p.periodo === per &&
-        p.id !== editId          // excluir el propio registro al editar
-      )
-      if (dup) {
-        onToast(`${alumnoName(data.alumnoId)} ya tiene cobro en ${periodoLabel(per)}`)
-        return
-      }
-    }
 
     try {
       if (isEdit && modal !== null && typeof modal === 'object') {

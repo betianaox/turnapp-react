@@ -84,7 +84,7 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
     setDelTarget(null)
   }
 
-  const ROW_H = 30   // px por slot de 30 min → turno (span 2) = 60px
+  const ROW_H = 36   // px por slot de 30 min → turno (span 2) = 72px
 
   function renderCell(t: Turno | undefined, dia: number, h: string, cancha: number, date: Date, row: number, spanned: boolean, last: boolean) {
     if (spanned) return null
