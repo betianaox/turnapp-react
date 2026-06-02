@@ -151,6 +151,14 @@ html, body, #root { height: 100%; overflow: hidden; }
 /* ── Toast ─────────────────────────────────────────────────── */
 .app-toast { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%); background: rgba(30,30,32,.9); color: #fff; border-radius: 20px; padding: 9px 20px; font-size: 13px; font-weight: 600; z-index: 1060; pointer-events: none; white-space: nowrap; transition: opacity .3s; backdrop-filter: blur(8px); }
 
+/* ── Calendar nav arrows ────────────────────────────────────── */
+.cal-nav-btn { width: 30px; height: 30px; border-radius: 6px; border: 1px solid #dee2e6; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0; transition: background .1s; }
+.cal-nav-btn:hover  { background: #f8f9fa; }
+.cal-nav-btn:active { background: #e9ecef; }
+.cal-nav-btn::before { content: ''; display: block; width: 8px; height: 8px; border-top: 2px solid #6c757d; border-right: 2px solid #6c757d; }
+.cal-nav-btn.prev::before { transform: rotate(-135deg) translate(1px, -1px); }
+.cal-nav-btn.next::before { transform: rotate(45deg)  translate(-1px, -1px); }
+
 /* ── FAB ───────────────────────────────────────────────────── */
 .fab { position: fixed; bottom: 20px; right: 18px; width: 48px; height: 48px; border-radius: 50%; background: #1A6BBF; border: none; padding: 0; cursor: pointer; box-shadow: 0 4px 14px rgba(26,107,191,.45); z-index: 50; transition: transform .15s, box-shadow .15s; }
 .fab::before, .fab::after { content: ''; position: absolute; top: 50%; left: 50%; background: #fff; border-radius: 2px; transform: translate(-50%, -50%); }
