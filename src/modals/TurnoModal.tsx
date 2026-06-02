@@ -242,7 +242,7 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
                       borderBottom: '1px solid #f0f0f0',
                       opacity: conflict ? 0.45 : 1,
                     }}
-                    className={`d-flex align-items-center gap-2 px-3 py-2 ${sel ? 'bg-primary bg-opacity-10' : ''}`}
+                    className={`d-flex align-items-center gap-2 px-3 py-2 ${sel ? 'bg-light' : ''}`}
                   >
                     <Form.Check type="checkbox" readOnly checked={sel}
                       tabIndex={-1} className="flex-shrink-0 mb-0"
