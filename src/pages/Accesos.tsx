@@ -25,8 +25,10 @@ export function Accesos({ onToast }: Props) {
 
   useEffect(() => setCurrentPage(1), [search])
 
+  const myRol  = usuarios.find(u => u.uid === user?.uid)?.rol ?? 'profe'
+  const isDev  = myRol === 'dev'
+
   const sorted = [...usuarios]
-    .filter(u => (u.rol ?? 'profe') !== 'dev')
     .sort((a, b) => {
       if (a.activo !== b.activo) return a.activo ? -1 : 1
       return a.displayName.localeCompare(b.displayName)
@@ -107,7 +109,8 @@ export function Accesos({ onToast }: Props) {
           {/* ── Mobile: cards ──────────────────────────────────── */}
           <div className="d-md-none d-flex flex-column gap-3">
             {rows.map(u => {
-              const isMe = u.uid === user?.uid
+              const isMe     = u.uid === user?.uid
+              const canEdit  = isDev || (u.rol ?? 'profe') !== 'dev'
               return (
                 <Card key={u.uid} className={`border-0 shadow-sm ${!u.activo ? 'opacity-75' : ''}`}>
                   <Card.Body>
@@ -124,28 +127,33 @@ export function Accesos({ onToast }: Props) {
                       <ActiveBadge activo={u.activo} />
                     </div>
 
-                    <div className="d-flex gap-2">
-                      <Form.Select size="sm" style={{ maxWidth: 90 }}
-                        value={u.rol ?? 'profe'}
-                        onChange={e => setUsuarioRol(u.uid, e.target.value as 'dev'|'profe')}>
-                        <option value="profe">Profe</option>
-                      </Form.Select>
-                      <Button
-                        variant={u.activo ? 'outline-secondary' : 'success'}
-                        size="sm"
-                        className="flex-grow-1 fw-semibold"
-                        onClick={() => handleToggle(u.uid, !u.activo)}
-                      >
-                        {u.activo ? 'Desactivar' : 'Activar'}
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        onClick={() => setConfirmUid(u.uid)}
-                      >
-                        🗑
-                      </Button>
-                    </div>
+                    {canEdit ? (
+                      <div className="d-flex gap-2">
+                        <Form.Select size="sm" style={{ maxWidth: 90 }}
+                          value={u.rol ?? 'profe'}
+                          onChange={e => setUsuarioRol(u.uid, e.target.value as 'dev'|'profe')}>
+                          <option value="profe">Profe</option>
+                          {isDev && <option value="dev">Dev</option>}
+                        </Form.Select>
+                        <Button
+                          variant={u.activo ? 'outline-secondary' : 'success'}
+                          size="sm"
+                          className="flex-grow-1 fw-semibold"
+                          onClick={() => handleToggle(u.uid, !u.activo)}
+                        >
+                          {u.activo ? 'Desactivar' : 'Activar'}
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => setConfirmUid(u.uid)}
+                        >
+                          🗑
+                        </Button>
+                      </div>
+                    ) : (
+                      <small className="text-muted fst-italic">Solo editable por devs</small>
+                    )}
                   </Card.Body>
                 </Card>
               )
@@ -166,7 +174,8 @@ export function Accesos({ onToast }: Props) {
               </thead>
               <tbody>
                 {rows.map(u => {
-                  const isMe = u.uid === user?.uid
+                  const isMe    = u.uid === user?.uid
+                  const canEdit = isDev || (u.rol ?? 'profe') !== 'dev'
                   return (
                     <tr key={u.uid} className={!u.activo ? 'text-muted' : ''}>
                       <td>
@@ -185,29 +194,33 @@ export function Accesos({ onToast }: Props) {
                       <td><small className="text-muted">{ff(u.primerLogin)}</small></td>
                       <td><small className="text-muted">{ff(u.ultimoLogin)}</small></td>
                       <td>
-                        <div className="d-flex gap-2 justify-content-end align-items-center">
-                          <Form.Select size="sm" style={{ maxWidth: 85 }}
-                            value={u.rol ?? 'profe'}
-                            onChange={e => setUsuarioRol(u.uid, e.target.value as 'dev'|'profe')}>
-                            <option value="profe">Profe</option>
-                            <option value="dev">Dev</option>
-                          </Form.Select>
-                          <Button
-                            variant={u.activo ? 'outline-secondary' : 'success'}
-                            size="sm"
-                            className="fw-semibold"
-                            onClick={() => handleToggle(u.uid, !u.activo)}
-                          >
-                            {u.activo ? 'Desactivar' : 'Activar'}
-                          </Button>
-                          <Button
-                            variant="outline-danger"
-                            size="sm"
-                            onClick={() => setConfirmUid(u.uid)}
-                          >
-                            🗑
-                          </Button>
-                        </div>
+                        {canEdit ? (
+                          <div className="d-flex gap-2 justify-content-end align-items-center">
+                            <Form.Select size="sm" style={{ maxWidth: 85 }}
+                              value={u.rol ?? 'profe'}
+                              onChange={e => setUsuarioRol(u.uid, e.target.value as 'dev'|'profe')}>
+                              <option value="profe">Profe</option>
+                              {isDev && <option value="dev">Dev</option>}
+                            </Form.Select>
+                            <Button
+                              variant={u.activo ? 'outline-secondary' : 'success'}
+                              size="sm"
+                              className="fw-semibold"
+                              onClick={() => handleToggle(u.uid, !u.activo)}
+                            >
+                              {u.activo ? 'Desactivar' : 'Activar'}
+                            </Button>
+                            <Button
+                              variant="outline-danger"
+                              size="sm"
+                              onClick={() => setConfirmUid(u.uid)}
+                            >
+                              🗑
+                            </Button>
+                          </div>
+                        ) : (
+                          <small className="text-muted fst-italic text-end d-block">Solo editable por devs</small>
+                        )}
                       </td>
                     </tr>
                   )
