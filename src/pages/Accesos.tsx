@@ -118,7 +118,7 @@ export function Accesos({ onToast }: Props) {
                     <div className="d-flex align-items-center gap-2 mb-2">
                       <UserAvatar u={u} />
                       <div className="min-w-0 flex-grow-1">
-                        <div className="fw-semibold text-truncate" style={{ fontSize: 13 }}>
+                        <div className="fw-semibold text-truncate" style={{ fontSize: 14 }}>
                           {u.displayName || '—'}
                           {isMe && <Badge bg="light" text="dark" className="ms-2 fw-normal border" style={{ fontSize: 9 }}>vos</Badge>}
                         </div>
@@ -181,7 +181,7 @@ export function Accesos({ onToast }: Props) {
                         <div className="d-flex align-items-center gap-2">
                           <UserAvatar u={u} />
                           <div className="min-w-0">
-                            <div className="fw-semibold text-truncate" style={{ maxWidth: 180 }}>
+                            <div className="fw-semibold text-truncate" style={{ maxWidth: 180, fontSize: 14 }}>
                               {u.displayName || '—'}
                               {isMe && <Badge bg="light" text="dark" className="ms-1 fw-normal border" style={{ fontSize: 9 }}>vos</Badge>}
                             </div>
