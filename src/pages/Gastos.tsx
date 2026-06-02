@@ -78,8 +78,8 @@ export function Gastos({ onOpenGasto, activePeriodo, onPeriodoChange }: Props) {
 
       {/* Filtros */}
       <div className="filter-bar mb-3">
-        <div className="d-flex align-items-center gap-1">
-          <Form.Control type="month" lang="es-AR" size="sm" style={{ flex: '1 1 auto', minWidth: 0 }}
+        <div className="filter-auto d-flex align-items-center gap-1">
+          <Form.Control type="month" lang="es-AR" size="sm"
             value={periodo} onChange={e => handlePeriodoChange(e.target.value)} />
           {periodo && <Button variant="outline-secondary" size="sm" onClick={() => handlePeriodoChange('')}>✕</Button>}
         </div>
