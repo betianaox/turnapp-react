@@ -5,6 +5,7 @@ import {
   PieChart, Pie, Cell,
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   ComposedChart, Line, Legend,
+  ScatterChart, Scatter, ZAxis, Tooltip,
   ResponsiveContainer,
 } from 'recharts'
 
@@ -19,7 +20,9 @@ export interface DashboardData {
   tasaCobro:        { cobrados: number; total: number }
   clasesPorDia:     { name: string; value: number }[]
   ocupacionHoraria: { name: string; value: number }[]
-  topAlumnos:       { name: string; value: number }[]
+  heatmap:          { dia: number; hora: string; value: number }[]
+  funnelCobros:     { name: string; value: number; color: string }[]
+  treemapData:      { name: string; size: number; color: string; tipo: string }[]
 }
 
 function Empty({ msg }: { msg: string }) {
@@ -44,9 +47,13 @@ function PieLabel({ cx, cy, midAngle, outerRadius, percent, name }: {
 const H   = 220
 const yFmt = (v: number) => `$${Math.round(v / 1000)}k`
 
+const DIAS_LBL = ['', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+
+
 export function ReportesDashboard({
   ingresosPorUser, gastosPorCat, tendencia,
-  alumnosPorEstado, tasaCobro, clasesPorDia, ocupacionHoraria, topAlumnos,
+  alumnosPorEstado, tasaCobro, clasesPorDia, ocupacionHoraria,
+  heatmap, funnelCobros, treemapData,
 }: DashboardData) {
   const { cobrados, total } = tasaCobro
   const pct        = total > 0 ? Math.round((cobrados / total) * 100) : 0
@@ -182,30 +189,6 @@ export function ReportesDashboard({
         </Card>
       </Col>
 
-      {/* D — Barras horizontales: top alumnos */}
-      <Col xs={12} md={6}>
-        <Card className="border-0 shadow-sm h-100">
-          <Card.Body>
-            <div className="fw-bold text-uppercase text-muted mb-3" style={{ fontSize: 10, letterSpacing: .5 }}>
-              Top alumnos · monto cobrado
-            </div>
-            {topAlumnos.length === 0
-              ? <Empty msg="Sin cobros en este período" />
-              : (
-                <ResponsiveContainer width="100%" height={H}>
-                  <BarChart data={topAlumnos} layout="vertical" margin={{ top: 0, right: 24, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e9ecef" />
-                    <XAxis type="number" tick={{ fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={yFmt} />
-                    <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} axisLine={false} tickLine={false} width={74} />
-                    <Bar dataKey="value" fill="#1A6BBF" radius={[0, 4, 4, 0]} maxBarSize={22} />
-                  </BarChart>
-                </ResponsiveContainer>
-              )
-            }
-          </Card.Body>
-        </Card>
-      </Col>
-
       {/* 4 — Composed: tendencia 6 meses */}
       <Col xs={12} md={6}>
         <Card className="border-0 shadow-sm h-100">
@@ -279,6 +262,115 @@ export function ReportesDashboard({
                 </ResponsiveContainer>
               )
             }
+          </Card.Body>
+        </Card>
+      </Col>
+
+
+      {/* E — Heatmap: ocupación día × hora */}
+      <Col xs={12} md={6}>
+        <Card className="border-0 shadow-sm h-100">
+          <Card.Body>
+            <div className="fw-bold text-uppercase text-muted mb-3" style={{ fontSize: 10, letterSpacing: .5 }}>
+              Mapa de calor — ocupación
+            </div>
+            {heatmap.length === 0 ? <Empty msg="Sin turnos fijos" /> : (() => {
+              const horas  = [...new Set(heatmap.map(d => d.hora))].sort()
+              const maxVal = Math.max(...heatmap.map(d => d.value), 1)
+              return (
+                <div style={{ display: 'grid', gridTemplateColumns: '38px repeat(6, 1fr)', gap: 2 }}>
+                  <div />
+                  {[1,2,3,4,5,6].map(d => (
+                    <div key={d} style={{ fontSize: 10, textAlign: 'center', color: '#6c757d', fontWeight: 600 }}>{DIAS_LBL[d]}</div>
+                  ))}
+                  {horas.map(hora => (
+                    [
+                      <div key={`h-${hora}`} style={{ fontSize: 9, color: '#adb5bd', display: 'flex', alignItems: 'center' }}>{hora}</div>,
+                      ...[1,2,3,4,5,6].map(dia => {
+                        const val = heatmap.find(d => d.dia === dia && d.hora === hora)?.value ?? 0
+                        return (
+                          <div key={`${dia}-${hora}`} title={`${DIAS_LBL[dia]} ${hora}: ${val}`}
+                            style={{ height: 16, borderRadius: 3, background: val > 0 ? `rgba(26,107,191,${0.15 + (val / maxVal) * 0.85})` : '#f0f0f0' }} />
+                        )
+                      })
+                    ]
+                  ))}
+                </div>
+              )
+            })()}
+          </Card.Body>
+        </Card>
+      </Col>
+
+      {/* F — Funnel: embudo de cobros */}
+      <Col xs={12} md={6}>
+        <Card className="border-0 shadow-sm h-100">
+          <Card.Body>
+            <div className="fw-bold text-uppercase text-muted mb-3" style={{ fontSize: 10, letterSpacing: .5 }}>
+              Embudo de cobros
+            </div>
+            {funnelCobros.length === 0 ? <Empty msg="Sin alumnos activos" /> : (
+              <div style={{ paddingTop: 8 }}>
+                {funnelCobros.map((d, i) => {
+                  const pct = funnelCobros[0].value > 0 ? Math.round((d.value / funnelCobros[0].value) * 100) : 0
+                  return (
+                    <div key={d.name} style={{ marginBottom: 16 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                        <span style={{ fontSize: 11, color: '#6c757d', width: 88, textAlign: 'right', flexShrink: 0 }}>{d.name}</span>
+                        <div style={{ flex: 1, background: '#f0f0f0', borderRadius: 4, height: 26, position: 'relative', overflow: 'hidden' }}>
+                          <div style={{ width: `${pct}%`, background: d.color, height: '100%', borderRadius: 4, transition: 'width .4s' }} />
+                        </div>
+                        <span style={{ fontSize: 13, fontWeight: 600, color: d.color, width: 28, textAlign: 'right', flexShrink: 0 }}>{d.value}</span>
+                      </div>
+                      {i < funnelCobros.length - 1 && (
+                        <div style={{ display: 'flex', justifyContent: 'center', color: '#adb5bd', fontSize: 12 }}>↓</div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </Card.Body>
+        </Card>
+      </Col>
+
+      {/* G — Bubble chart: ingresos por alumno */}
+      <Col xs={12} md={6}>
+        <Card className="border-0 shadow-sm h-100">
+          <Card.Body>
+            <div className="fw-bold text-uppercase text-muted mb-1" style={{ fontSize: 10, letterSpacing: .5 }}>
+              Ingresos por alumno · burbujas
+            </div>
+            <small className="text-muted d-block mb-2">Tamaño proporcional al monto</small>
+            {treemapData.length === 0 ? <Empty msg="Sin cobros en este período" /> : (
+              <ResponsiveContainer width="100%" height={H}>
+                <ScatterChart margin={{ top: 8, right: 8, left: 0, bottom: 8 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e9ecef" />
+                  <XAxis dataKey="x" type="number" hide />
+                  <YAxis dataKey="y" type="number" tickFormatter={yFmt}
+                    tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={46} />
+                  <ZAxis dataKey="z" range={[30, 600]} />
+                  <Tooltip content={({ payload }) => {
+                    if (!payload?.length) return null
+                    const d = payload[0].payload
+                    return (
+                      <div style={{ background: '#fff', border: '1px solid #e9ecef', borderRadius: 6, padding: '6px 10px', fontSize: 12 }}>
+                        <div className="fw-semibold">{d.name}</div>
+                        <div className="text-muted">{d.tipo} · {yFmt(d.y)}</div>
+                      </div>
+                    )
+                  }} />
+                  {[...new Set(treemapData.map(d => d.tipo))].map(tipo => (
+                    <Scatter key={tipo} name={tipo}
+                      data={treemapData
+                        .map((d, i) => ({ ...d, x: i, y: d.size, z: d.size }))
+                        .filter(d => d.tipo === tipo)}
+                      fill={treemapData.find(d => d.tipo === tipo)?.color ?? '#1A6BBF'}
+                      fillOpacity={0.7} />
+                  ))}
+                </ScatterChart>
+              </ResponsiveContainer>
+            )}
           </Card.Body>
         </Card>
       </Col>

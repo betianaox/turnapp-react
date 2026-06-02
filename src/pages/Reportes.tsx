@@ -9,7 +9,7 @@ import { useStore }                from '../lib/store'
 import { usePagos, getPagoEstado } from '../lib/pagos'
 import { ff, fp }                  from '../lib/utils'
 import { ReportesDashboard }       from './ReportesDashboard'
-import { MONTHS, DAYS }  from '../constants'
+import { MONTHS, DAYS, TIPO_LBL }  from '../constants'
 
 type Vista = 'resumen' | 'dashboard'
 
@@ -144,25 +144,47 @@ export function Reportes() {
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([h, value]) => ({ name: parseInt(h) + 'h', value }))
 
-  // D — Top 8 alumnos por monto cobrado en el período
-  const montosPorAlumno: Record<string, number> = {}
-  pagosDelMes.forEach(p => {
-    montosPorAlumno[p.alumnoId] = (montosPorAlumno[p.alumnoId] || 0) + p.monto
-  })
-  const topAlumnosData = Object.entries(montosPorAlumno)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 8)
-    .map(([id, value]) => ({
-      name:  alumnos.find(a => a.id === id)?.nombre.split(' ')[0] ?? '—',
-      value,
-    }))
-
   // E — Tasa de cobro del período
   const pagadosIds    = new Set(pagosDelMes.map(p => p.alumnoId))
   const tasaCobroData = {
     cobrados: alumnosConTurnoFijo.filter(a => pagadosIds.has(a.id)).length,
     total:    alumnosActivos,
   }
+
+  // F — Heatmap ocupación día × hora
+  const heatmapData = (() => {
+    const counts: Record<string, number> = {}
+    turnos.filter(t => t.fijo && t.tipo !== 'bloqueo').forEach(t => {
+      const key = `${t.dia}|${t.hora}`
+      counts[key] = (counts[key] || 0) + 1
+    })
+    return Object.entries(counts).map(([key, value]) => {
+      const [dia, hora] = key.split('|')
+      return { dia: Number(dia), hora, value }
+    })
+  })()
+
+  // G — Funnel de cobros
+  const conCobroIds    = new Set(todosPagosPeriodo.map(p => p.alumnoId))
+  const funnelCobrosData = [
+    { name: 'Alumnos activos',  value: alumnosActivos,   color: '#1A6BBF' },
+    { name: 'Con cobro cargado', value: conCobroIds.size, color: '#FFA000' },
+    { name: 'Cobrado',           value: pagadosIds.size,  color: '#2E7D32' },
+  ]
+
+  // H — Treemap ingresos por alumno
+  const TIPO_C: Record<string, string> = {
+    'Grupal': '#1A6BBF', 'Individual': '#E67E22', '2x/sem': '#8E44AD', '3x/sem': '#27AE60', 'Clase suelta': '#16A085',
+  }
+  const treemapData = pagosDelMes
+    .map(p => {
+      const alumno = alumnos.find(a => a.id === p.alumnoId)
+      if (!alumno) return null
+      const tipo = TIPO_LBL[alumno.tipo] ?? alumno.tipo
+      return { name: alumno.nombre.split(' ')[0], size: p.monto, color: TIPO_C[tipo] ?? '#adb5bd', tipo }
+    })
+    .filter(Boolean) as { name: string; size: number; color: string; tipo: string }[]
+
 
   return (
     <>
@@ -390,7 +412,9 @@ export function Reportes() {
           tasaCobro={tasaCobroData}
           clasesPorDia={clasesPorDiaData}
           ocupacionHoraria={ocupacionHorariaData}
-          topAlumnos={topAlumnosData}
+          heatmap={heatmapData}
+          funnelCobros={funnelCobrosData}
+          treemapData={treemapData}
         />
       )}
     </>
