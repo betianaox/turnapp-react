@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Button  from 'react-bootstrap/Button'
 import Badge   from 'react-bootstrap/Badge'
 import Form    from 'react-bootstrap/Form'
+import Row     from 'react-bootstrap/Row'
+import Col     from 'react-bootstrap/Col'
 import { useStore }                from '../lib/store'
 import { usePagos, getPagoEstado } from '../lib/pagos'
 import { ff, fp }                  from '../lib/utils'
@@ -83,7 +85,8 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
           <div className="small mt-1">No hay pagos vencidos ni por vencer mañana</div>
         </div>
       ) : (
-        avisos.map(({ p, alumno, estado }) => {
+        <Row className="g-2">
+        {avisos.map(({ p, alumno, estado }) => {
           const defaultMsg = buildMsg(alumno.nombre, p.monto, p.proximoPago, estado)
           const msg        = editedMsgs[p.id] ?? defaultMsg
           const url        = waUrl(alumno.tel ?? '', msg)
@@ -91,8 +94,8 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
           const visto      = vistos.has(p.id)
 
           return (
+            <Col key={p.id} xs={12} md={6} lg={4}>
             <div
-              key={p.id}
               style={{
                 borderLeft: `3px solid ${isVencido ? '#dc3545' : '#ffc107'}`,
                 background: visto
@@ -100,7 +103,7 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
                   : isVencido ? '#fff5f5' : '#fffdf0',
                 borderRadius: 6,
                 padding: '8px 10px',
-                marginBottom: 8,
+                height: '100%',
                 opacity: visto ? 0.55 : 1,
                 transition: 'opacity .2s',
               }}
@@ -137,7 +140,7 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
               {/* Mensaje editable */}
               <Form.Control
                 as="textarea"
-                rows={2}
+                rows={3}
                 value={msg}
                 onChange={e => setEditedMsgs(prev => ({ ...prev, [p.id]: e.target.value }))}
                 style={{
@@ -178,8 +181,10 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
                 </a>
               </div>
             </div>
+            </Col>
           )
-        })
+        })}
+        </Row>
       )}
     </>
   )
