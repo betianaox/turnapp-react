@@ -122,7 +122,7 @@ export function Accesos({ onToast }: Props) {
                           {u.displayName || '—'}
                           {isMe && <Badge bg="light" text="dark" className="ms-2 fw-normal border" style={{ fontSize: 9 }}>vos</Badge>}
                         </div>
-                        <small className="text-muted d-block text-truncate" style={{ fontSize: 11 }}>{u.email}</small>
+                        <small className="text-muted d-block text-truncate" style={{ fontSize: 12 }}>{u.email}</small>
                         <small className="text-muted" style={{ fontSize: 11 }}>Últ. acceso: {ff(u.ultimoLogin)}</small>
                       </div>
                       <ActiveBadge activo={u.activo} />
