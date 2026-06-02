@@ -249,8 +249,8 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
   return (
     <>
       {/* Tabs + Filtros */}
-      <div className="d-flex align-items-center gap-2 mb-2">{tabControls}</div>
       <div className="filter-bar mb-3">
+        <div className="filter-auto">{tabControls}</div>
         <InputGroup size="sm" style={{ maxWidth: 210 }}>
           <InputGroup.Text>🔍</InputGroup.Text>
           <Form.Control placeholder="Buscar alumno..." value={query} onChange={e => setQuery(e.target.value)} />
