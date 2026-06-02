@@ -60,10 +60,10 @@ export function Accesos({ onToast }: Props) {
   const UserAvatar = ({ u }: { u: typeof rows[0] }) => (
     <div
       className="rounded-circle overflow-hidden flex-shrink-0 d-flex align-items-center justify-content-center fw-bold"
-      style={{ width: 38, height: 38, fontSize: 14, background: u.activo ? '#e8f2fc' : '#f0f0f0', color: u.activo ? '#1A6BBF' : '#aaa' }}
+      style={{ width: 32, height: 32, fontSize: 12, background: u.activo ? '#e8f2fc' : '#f0f0f0', color: u.activo ? '#1A6BBF' : '#aaa' }}
     >
       {u.photoURL
-        ? <img src={u.photoURL} width={38} height={38} referrerPolicy="no-referrer" style={{ objectFit: 'cover', display: 'block' }} alt="" />
+        ? <img src={u.photoURL} width={32} height={32} referrerPolicy="no-referrer" style={{ objectFit: 'cover', display: 'block' }} alt="" />
         : (u.displayName[0] || u.email[0] || '?').toUpperCase()
       }
     </div>
@@ -108,22 +108,22 @@ export function Accesos({ onToast }: Props) {
       ) : (
         <>
           {/* ── Mobile: cards ──────────────────────────────────── */}
-          <div className="d-md-none d-flex flex-column gap-3">
+          <div className="d-md-none d-flex flex-column gap-2">
             {rows.map(u => {
               const isMe     = u.uid === user?.uid
               const canEdit  = isDev || (u.rol ?? 'profe') !== 'dev'
               return (
                 <Card key={u.uid} className={`border-0 shadow-sm ${!u.activo ? 'opacity-75' : ''}`}>
-                  <Card.Body>
-                    <div className="d-flex align-items-center gap-3 mb-3">
+                  <Card.Body className="p-2">
+                    <div className="d-flex align-items-center gap-2 mb-2">
                       <UserAvatar u={u} />
                       <div className="min-w-0 flex-grow-1">
-                        <div className="fw-bold text-truncate">
+                        <div className="fw-semibold text-truncate" style={{ fontSize: 13 }}>
                           {u.displayName || '—'}
                           {isMe && <Badge bg="light" text="dark" className="ms-2 fw-normal border" style={{ fontSize: 9 }}>vos</Badge>}
                         </div>
-                        <small className="text-muted d-block text-truncate">{u.email}</small>
-                        <small className="text-muted">Últ. acceso: {ff(u.ultimoLogin)}</small>
+                        <small className="text-muted d-block text-truncate" style={{ fontSize: 11 }}>{u.email}</small>
+                        <small className="text-muted" style={{ fontSize: 11 }}>Últ. acceso: {ff(u.ultimoLogin)}</small>
                       </div>
                       <ActiveBadge activo={u.activo} />
                     </div>
