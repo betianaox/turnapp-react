@@ -252,7 +252,7 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
       <div className="filter-bar mb-3">
         <div className="d-flex gap-2 align-items-center">
           <div className="flex-shrink-0">{tabControls}</div>
-          <div className="d-flex align-items-center gap-1">
+          <div className="ms-auto d-flex align-items-center gap-1">
             <Form.Control type="month" lang="es-AR" size="sm"
               value={periodo} onChange={e => setPeriodo(e.target.value)} />
             {periodo && <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>}
