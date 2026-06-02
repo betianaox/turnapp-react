@@ -463,7 +463,7 @@ export function Cobros({ onToast, newTrigger, onNewHandled, onPagoPaid }: Props)
       )}
       {tab === 'config' && (
         <>
-          <div className="d-flex gap-2 mb-3 align-items-center">{tabBtns}</div>
+          <div className="mb-3"><div className="filter-tab-half">{tabBtns}</div></div>
           <ConfiguracionTab onToast={onToast} />
         </>
       )}

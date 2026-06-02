@@ -170,6 +170,8 @@ html, body, #root { height: 100%; overflow: hidden; }
   .filter-row { width: 100%; }
   .filter-row > * { flex: 1 !important; min-width: 0 !important; margin-left: 0 !important; }
   .filter-row .btn-group { width: 100%; }
+  .filter-tab-half { width: 50%; }
+  .filter-tab-half .btn-group { width: 100%; }
 }
 
 /* ── Filter bar — full-width items on mobile ────────────────── */
