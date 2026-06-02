@@ -158,6 +158,10 @@ html, body, #root { height: 100%; overflow: hidden; }
 .fab::after  { width: 2px;  height: 18px; }
 .fab:active  { transform: scale(.88); }
 
+/* ── Search bar — constrained width on desktop ──────────────── */
+.search-bar { max-width: none; }
+@media (min-width: 576px) { .search-bar { max-width: 252px; } }
+
 /* ── Filter bar — full-width items on mobile ────────────────── */
 .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 @media (max-width: 575px) {

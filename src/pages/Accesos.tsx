@@ -92,7 +92,7 @@ export function Accesos({ onToast }: Props) {
         </div>
       </div>
 
-      <InputGroup className="mb-3">
+      <InputGroup size="sm" className="mb-3 search-bar">
         <InputGroup.Text>🔍</InputGroup.Text>
         <Form.Control
           placeholder="Buscar..."

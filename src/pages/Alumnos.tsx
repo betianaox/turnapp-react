@@ -46,7 +46,7 @@ export function Alumnos({ onOpenAlumno }: Props) {
         <Badge bg="secondary" className="fw-normal">{alumnos.length} total</Badge>
       </div>
 
-      <InputGroup className="mb-3">
+      <InputGroup size="sm" className="mb-3 search-bar">
         <InputGroup.Text>🔍</InputGroup.Text>
         <Form.Control
           placeholder="Buscar..."
