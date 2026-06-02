@@ -30,7 +30,7 @@ export function Reportes() {
   const { pagos } = usePagos()
 
   const [vista,   setVista]   = useState<Vista>('resumen')
-  const [mes,     setMes]     = useState(() => new Date().toISOString().substring(0, 7))
+  const [mes]                 = useState(() => new Date().toISOString().substring(0, 7))
   const [periodo, setPeriodo] = useState(() => new Date().toISOString().substring(0, 7))
 
   // ── Alumnos activos ──────────────────────────────────────────
