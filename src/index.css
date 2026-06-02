@@ -161,8 +161,9 @@ html, body, #root { height: 100%; overflow: hidden; }
 /* ── Filter bar — full-width items on mobile ────────────────── */
 .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 @media (max-width: 575px) {
-  .filter-bar > * { flex: 0 0 100% !important; max-width: none !important; width: 100% !important; }
-  .filter-bar > .filter-auto { flex: 0 0 auto !important; width: auto !important; }
+  .filter-bar { flex-direction: column; align-items: stretch; }
+  .filter-bar > * { max-width: none !important; }
+  .filter-bar > .filter-auto { align-self: flex-start; }
 }
 
 /* ── AlumnoView ────────────────────────────────────────────── */
