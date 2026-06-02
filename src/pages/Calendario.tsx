@@ -134,10 +134,10 @@ export function Calendario({ onOpenTurno, onToast }: Props) {
     <div>
       {/* Navegación semanal */}
       <div className="d-flex align-items-center gap-2 mb-3">
-        <button className="btn btn-outline-secondary btn-sm px-2" onClick={() => setWeekOff(w => w - 1)} style={{ fontSize: 22, lineHeight: 1 }}>‹</button>
+        <button className="btn btn-outline-secondary btn-sm px-2" onClick={() => setWeekOff(w => w - 1)} style={{ fontSize: 22, lineHeight: 1, display: 'inline-flex', alignItems: 'center' }}>‹</button>
         <span className="fw-bold flex-grow-1 text-center" style={{ fontSize: 14 }}>{weekLabel}</span>
         <button className="btn btn-outline-secondary btn-sm" onClick={goToday}>Hoy</button>
-        <button className="btn btn-outline-secondary btn-sm px-2" onClick={() => setWeekOff(w => w + 1)} style={{ fontSize: 22, lineHeight: 1 }}>›</button>
+        <button className="btn btn-outline-secondary btn-sm px-2" onClick={() => setWeekOff(w => w + 1)} style={{ fontSize: 22, lineHeight: 1, display: 'inline-flex', alignItems: 'center' }}>›</button>
       </div>
 
       {/* Leyenda */}
