@@ -70,7 +70,7 @@ export function Alumnos({ onOpenAlumno }: Props) {
             {list.map(a => (
               <Card key={a.id} className="border-0 shadow-sm" onClick={() => onOpenAlumno(a.id)} role="button" style={{ cursor: 'pointer' }}>
                 <Card.Body className="py-2 px-3">
-                  <div className="fw-bold text-uppercase">{a.nombre}</div>
+                  <div className="text-uppercase" style={{ fontSize: 14, fontWeight: 500 }}>{a.nombre}</div>
                   {a.tel && <small className="text-muted d-block">{a.tel}</small>}
                   <div className="mt-1"><Horarios alumnoId={a.id} turnos={turnos} /></div>
                 </Card.Body>
@@ -92,7 +92,7 @@ export function Alumnos({ onOpenAlumno }: Props) {
               <tbody>
                 {list.map(a => (
                   <tr key={a.id}>
-                    <td className="fw-semibold text-uppercase">{a.nombre}</td>
+                    <td className="text-uppercase" style={{ fontSize: 14, fontWeight: 500 }}>{a.nombre}</td>
                     <td><small className="text-muted">{a.tel || '—'}</small></td>
                     <td><Horarios alumnoId={a.id} turnos={turnos} /></td>
                     <td><Button variant="outline-primary" size="sm" onClick={() => onOpenAlumno(a.id)}>Editar</Button></td>
