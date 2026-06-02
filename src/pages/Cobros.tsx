@@ -259,18 +259,20 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
           </div>
         </div>
 
-        <InputGroup size="sm" className="search-bar">
-          <InputGroup.Text>🔍</InputGroup.Text>
-          <Form.Control placeholder="Buscar alumno..." value={query} onChange={e => setQuery(e.target.value)} />
-          {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
-        </InputGroup>
+        <div className="d-flex gap-2">
+          <InputGroup size="sm" style={{ flex: 1, minWidth: 0 }}>
+            <InputGroup.Text>🔍</InputGroup.Text>
+            <Form.Control placeholder="Buscar alumno..." value={query} onChange={e => setQuery(e.target.value)} />
+            {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
+          </InputGroup>
 
-        <Form.Select size="sm" style={{ maxWidth: 180 }} value={estado} onChange={e => setEstado(e.target.value as typeof estado)}>
-          <option value="all">Todos</option>
-          <option value="pendiente">Pendientes ({counts.pendiente})</option>
-          <option value="vencido">Vencidos ({counts.vencido})</option>
-          <option value="pagado">Pagados ({counts.pagado})</option>
-        </Form.Select>
+          <Form.Select size="sm" style={{ flex: 1, minWidth: 0, maxWidth: 180 }} value={estado} onChange={e => setEstado(e.target.value as typeof estado)}>
+            <option value="all">Todos</option>
+            <option value="pendiente">Pendientes ({counts.pendiente})</option>
+            <option value="vencido">Vencidos ({counts.vencido})</option>
+            <option value="pagado">Pagados ({counts.pagado})</option>
+          </Form.Select>
+        </div>
       </div>
       <hr className="section-sep" />
 

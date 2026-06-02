@@ -87,19 +87,21 @@ export function Avisos({ onOpenAlumno, onToast, vistos, onToggleVisto }: Props) 
       </div>
 
       <div className="filter-bar mb-3">
-        <div className="filter-auto d-flex align-items-center gap-1">
-          <Form.Control type="month" size="sm" value={periodo}
-            onChange={e => setPeriodo(e.target.value)} />
-          {periodo && (
-            <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>
-          )}
+        <div className="d-flex gap-2">
+          <div className="d-flex align-items-center gap-1" style={{ flex: 1, minWidth: 0 }}>
+            <Form.Control type="month" size="sm" style={{ flex: 1, minWidth: 0 }} value={periodo}
+              onChange={e => setPeriodo(e.target.value)} />
+            {periodo && (
+              <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>
+            )}
+          </div>
+          <InputGroup size="sm" style={{ flex: 1, minWidth: 0 }}>
+            <InputGroup.Text>🔍</InputGroup.Text>
+            <Form.Control placeholder="Buscar alumno..." value={query}
+              onChange={e => setQuery(e.target.value)} />
+            {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
+          </InputGroup>
         </div>
-        <InputGroup size="sm" className="search-bar">
-          <InputGroup.Text>🔍</InputGroup.Text>
-          <Form.Control placeholder="Buscar alumno..." value={query}
-            onChange={e => setQuery(e.target.value)} />
-          {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
-        </InputGroup>
       </div>
 
       <hr className="section-sep" />
