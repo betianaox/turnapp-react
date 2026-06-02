@@ -10,7 +10,7 @@ interface Props {
 
 export function Modal({ open, onClose, title, children }: Props) {
   return (
-    <BSModal show={open} onHide={onClose} scrollable fullscreen="sm-down" centered>
+    <BSModal show={open} onHide={onClose} scrollable centered>
       <BSModal.Header closeButton>
         <BSModal.Title className="fs-6 fw-bold">{title}</BSModal.Title>
       </BSModal.Header>
