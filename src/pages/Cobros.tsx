@@ -250,7 +250,7 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
     <>
       {/* Tabs + Filtros */}
       <div className="filter-bar mb-3">
-        <div className="d-flex gap-2 align-items-center">
+        <div className="d-flex gap-2 align-items-center w-100">
           <div style={{ flex: 1 }}>{tabControls}</div>
           <div style={{ flex: 1, minWidth: 0 }} className="d-flex align-items-center gap-1">
             <Form.Control type="month" lang="es-AR" size="sm" style={{ flex: 1, minWidth: 0 }}

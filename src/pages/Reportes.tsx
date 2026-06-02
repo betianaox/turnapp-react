@@ -168,7 +168,7 @@ export function Reportes() {
     <>
       {/* Barra superior: sub-tabs + filtros */}
       <div className="filter-bar mb-3">
-        <div className="d-flex gap-2 align-items-center">
+        <div className="d-flex gap-2 align-items-center w-100">
           {/* Sub-tabs — mitad izquierda */}
           <div style={{ flex: 1 }}>
             <div className="btn-group btn-group-sm">
