@@ -250,12 +250,14 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
     <>
       {/* Tabs + Filtros */}
       <div className="filter-bar mb-3">
-        <div className="filter-auto">{tabControls}</div>
-        <InputGroup size="sm" style={{ maxWidth: 210 }}>
-          <InputGroup.Text>🔍</InputGroup.Text>
-          <Form.Control placeholder="Buscar alumno..." value={query} onChange={e => setQuery(e.target.value)} />
-          {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
-        </InputGroup>
+        <div className="d-flex gap-2 align-items-center">
+          <div className="flex-shrink-0">{tabControls}</div>
+          <InputGroup size="sm" className="flex-fill">
+            <InputGroup.Text>🔍</InputGroup.Text>
+            <Form.Control placeholder="Buscar alumno..." value={query} onChange={e => setQuery(e.target.value)} />
+            {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
+          </InputGroup>
+        </div>
 
         <div className="d-flex align-items-center gap-1">
           <Form.Control type="month" lang="es-AR" size="sm" style={{ maxWidth: 148, flex: '1 1 auto' }}
