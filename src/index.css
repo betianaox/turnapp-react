@@ -165,6 +165,13 @@ html, body, #root { height: 100%; overflow: hidden; }
 .search-bar { max-width: none; }
 @media (min-width: 576px) { .search-bar { max-width: 252px; } }
 
+/* ── Filter row — 50/50 on mobile, natural on desktop ───────── */
+@media (max-width: 575px) {
+  .filter-row { width: 100%; }
+  .filter-row > * { flex: 1 !important; min-width: 0 !important; margin-left: 0 !important; }
+  .filter-row .btn-group { width: 100%; }
+}
+
 /* ── Filter bar — full-width items on mobile ────────────────── */
 .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 @media (max-width: 575px) {

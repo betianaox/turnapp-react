@@ -168,10 +168,10 @@ export function Reportes() {
     <>
       {/* Barra superior: sub-tabs + filtros */}
       <div className="filter-bar mb-3">
-        <div className="d-flex gap-2 align-items-center w-100">
-          {/* Sub-tabs — mitad izquierda */}
-          <div style={{ flex: 1 }}>
-            <div className="btn-group btn-group-sm w-100">
+        <div className="d-flex gap-2 align-items-center filter-row">
+          {/* Sub-tabs */}
+          <div className="flex-shrink-0">
+            <div className="btn-group btn-group-sm">
               <button
                 type="button"
                 className={`btn ${vista === 'resumen' ? 'btn-primary' : 'btn-outline-secondary'}`}
@@ -191,9 +191,9 @@ export function Reportes() {
             </div>
           </div>
 
-          {/* Periodo — mitad derecha */}
-          <div style={{ flex: 1, minWidth: 0 }} className="d-flex align-items-center gap-1">
-            <Form.Control type="month" lang="es-AR" size="sm" style={{ flex: 1, minWidth: 0 }}
+          {/* Periodo */}
+          <div className="ms-auto d-flex align-items-center gap-1">
+            <Form.Control type="month" lang="es-AR" size="sm" style={{ maxWidth: 148 }}
               value={periodo} onChange={e => setPeriodo(e.target.value)} title="Período contable" />
             {periodo && <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>}
           </div>

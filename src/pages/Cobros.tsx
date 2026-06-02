@@ -250,10 +250,10 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
     <>
       {/* Tabs + Filtros */}
       <div className="filter-bar mb-3">
-        <div className="d-flex gap-2 align-items-center w-100">
-          <div style={{ flex: 1 }}>{tabControls}</div>
-          <div style={{ flex: 1, minWidth: 0 }} className="d-flex align-items-center gap-1">
-            <Form.Control type="month" lang="es-AR" size="sm" style={{ flex: 1, minWidth: 0 }}
+        <div className="d-flex gap-2 align-items-center filter-row">
+          <div className="flex-shrink-0">{tabControls}</div>
+          <div className="ms-auto d-flex align-items-center gap-1">
+            <Form.Control type="month" lang="es-AR" size="sm"
               value={periodo} onChange={e => setPeriodo(e.target.value)} />
             {periodo && <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>}
           </div>
@@ -441,7 +441,7 @@ export function Cobros({ onToast, newTrigger, onNewHandled, onPagoPaid }: Props)
   const [tab, setTab] = useState<CobrosTabId>('cobros')
 
   const tabBtns = (
-    <div className="btn-group btn-group-sm w-100">
+    <div className="btn-group btn-group-sm">
       <button type="button" title="Cobros"
         className={`btn ${tab === 'cobros' ? 'btn-primary' : 'btn-outline-secondary'}`}
         onClick={() => setTab('cobros')}>
