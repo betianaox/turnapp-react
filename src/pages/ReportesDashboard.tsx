@@ -16,7 +16,7 @@ export interface DashboardData {
   ingresosPorUser:  { name: string; value: number }[]
   gastosPorCat:     { name: string; value: number }[]
   tendencia:        { name: string; ingresos: number; gastos: number; balance: number }[]
-  alumnosPorTipo:   { name: string; value: number }[]
+  alumnosPorEstado: { name: string; value: number; color: string }[]
   tasaCobro:        { cobrados: number; total: number }
   clasesPorDia:     { name: string; value: number }[]
   ocupacionHoraria: { name: string; value: number }[]
@@ -47,7 +47,7 @@ const yFmt = (v: number) => `$${Math.round(v / 1000)}k`
 
 export function ReportesDashboard({
   ingresosPorUser, gastosPorCat, tendencia,
-  alumnosPorTipo, tasaCobro, clasesPorDia, ocupacionHoraria, topAlumnos,
+  alumnosPorEstado, tasaCobro, clasesPorDia, ocupacionHoraria, topAlumnos,
 }: DashboardData) {
   const { cobrados, total } = tasaCobro
   const pct        = total > 0 ? Math.round((cobrados / total) * 100) : 0
@@ -147,25 +147,36 @@ export function ReportesDashboard({
         </Card>
       </Col>
 
-      {/* 4 — Donut: alumnos por tipo de clase */}
+      {/* 4 — Estado de cobros del período */}
       <Col xs={12} md={6}>
         <Card className="border-0 shadow-sm h-100">
           <Card.Body>
             <div className="fw-bold text-uppercase text-muted mb-3" style={{ fontSize: 10, letterSpacing: .5 }}>
-              Alumnos por tipo de clase
+              Alumnos por estado de cobro
             </div>
-            {!alumnosPorTipo.some(d => d.value > 0)
+            {!alumnosPorEstado.some(d => d.value > 0)
               ? <Empty msg="Sin alumnos activos" />
               : (
-                <ResponsiveContainer width="100%" height={H}>
-                  <PieChart>
-                    <Pie data={alumnosPorTipo} cx="50%" cy="50%"
-                      innerRadius={52} outerRadius={82} dataKey="value"
-                      labelLine={false} label={PieLabel as any}>
-                      {alumnosPorTipo.map((_, i) => <Cell key={i} fill={TIPO_COLORS[i % TIPO_COLORS.length]} />)}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+                <>
+                  <ResponsiveContainer width="100%" height={H - 50}>
+                    <PieChart>
+                      <Pie data={alumnosPorEstado} cx="50%" cy="50%"
+                        innerRadius={52} outerRadius={82} dataKey="value"
+                        labelLine={false} label={PieLabel as any}>
+                        {alumnosPorEstado.map((d, i) => <Cell key={i} fill={d.color} />)}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="d-flex flex-wrap justify-content-center gap-2 mt-1">
+                    {alumnosPorEstado.map(d => (
+                      <span key={d.name} className="d-flex align-items-center gap-1" style={{ fontSize: 11 }}>
+                        <span style={{ width: 10, height: 10, borderRadius: '50%', background: d.color, display: 'inline-block', flexShrink: 0 }} />
+                        <span className="text-muted">{d.name}</span>
+                        <strong>{d.value}</strong>
+                      </span>
+                    ))}
+                  </div>
+                </>
               )
             }
           </Card.Body>

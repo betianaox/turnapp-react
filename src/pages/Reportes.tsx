@@ -6,7 +6,7 @@ import Table  from 'react-bootstrap/Table'
 import Form   from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { useStore }                from '../lib/store'
-import { usePagos }                from '../lib/pagos'
+import { usePagos, getPagoEstado } from '../lib/pagos'
 import { ff, fp }                  from '../lib/utils'
 import { ReportesDashboard }       from './ReportesDashboard'
 import { MONTHS, TIPO_LBL, DAYS }  from '../constants'
@@ -104,14 +104,26 @@ export function Reportes() {
     return { name: MONTHS[d.getMonth()], ingresos: Math.round(ing), gastos: Math.round(gst), balance: Math.round(ing - gst) }
   })
 
-  // A — Alumnos por tipo de clase (activos)
-  const alumnosPorTipoData = Object.entries(
-    alumnosConTurnoFijo.reduce((acc, a) => {
-      const lbl = TIPO_LBL[a.tipo] ?? a.tipo
-      acc[lbl] = (acc[lbl] || 0) + 1
-      return acc
-    }, {} as Record<string, number>)
-  ).map(([name, value]) => ({ name, value }))
+  // A — Alumnos por estado de cobro en el período
+  const alumnosPorEstadoData = (() => {
+    const counts = { pagado: 0, pendiente: 0, vencido: 0, sinCobro: 0 }
+    alumnosConTurnoFijo.forEach(a => {
+      const pago = pagosDelMes.find(p => p.alumnoId === a.id)
+      if (!pago) { counts.sinCobro++ }
+      else {
+        const e = getPagoEstado(pago)
+        if (e === 'pagado')   counts.pagado++
+        else if (e === 'vencido') counts.vencido++
+        else counts.pendiente++
+      }
+    })
+    return [
+      { name: 'Pagado',    value: counts.pagado,    color: '#2E7D32' },
+      { name: 'Pendiente', value: counts.pendiente, color: '#1A6BBF' },
+      { name: 'Vencido',   value: counts.vencido,   color: '#dc3545' },
+      { name: 'Sin cobro', value: counts.sinCobro,  color: '#adb5bd' },
+    ].filter(d => d.value > 0)
+  })()
 
   // B — Turnos fijos por día de la semana
   const clasesPorDiaData = [1, 2, 3, 4, 5, 6].map(dia => ({
@@ -376,7 +388,7 @@ export function Reportes() {
           ingresosPorUser={ingresosPorUserData}
           gastosPorCat={gastosPorCatData}
           tendencia={tendenciaData}
-          alumnosPorTipo={alumnosPorTipoData}
+          alumnosPorEstado={alumnosPorEstadoData}
           tasaCobro={tasaCobroData}
           clasesPorDia={clasesPorDiaData}
           ocupacionHoraria={ocupacionHorariaData}
