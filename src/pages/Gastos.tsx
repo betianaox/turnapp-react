@@ -78,18 +78,17 @@ export function Gastos({ onOpenGasto, activePeriodo, onPeriodoChange }: Props) {
 
       {/* Filtros */}
       <div className="filter-bar mb-3">
-        <InputGroup size="sm" style={{ maxWidth: 210 }}>
+        <div className="d-flex align-items-center gap-1">
+          <Form.Control type="month" lang="es-AR" size="sm" style={{ flex: '1 1 auto', minWidth: 0 }}
+            value={periodo} onChange={e => handlePeriodoChange(e.target.value)} />
+          {periodo && <Button variant="outline-secondary" size="sm" onClick={() => handlePeriodoChange('')}>✕</Button>}
+        </div>
+
+        <InputGroup size="sm">
           <InputGroup.Text>🔍</InputGroup.Text>
           <Form.Control placeholder="Buscar..." value={search} onChange={e => setSearch(e.target.value)} />
           {search && <Button variant="outline-secondary" onClick={() => setSearch('')}>✕</Button>}
         </InputGroup>
-
-        {/* Período */}
-        <div className="d-flex align-items-center gap-1">
-          <Form.Control type="month" lang="es-AR" size="sm" style={{ maxWidth: 148 }}
-            value={periodo} onChange={e => handlePeriodoChange(e.target.value)} />
-          {periodo && <Button variant="outline-secondary" size="sm" onClick={() => handlePeriodoChange('')}>✕</Button>}
-        </div>
 
         <Form.Select size="sm" style={{ maxWidth: 155 }} value={filterUser} onChange={e => setFilterUser(e.target.value)}>
           <option value="">Todos los usuarios</option>

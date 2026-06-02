@@ -252,18 +252,18 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
       <div className="filter-bar mb-3">
         <div className="d-flex gap-2 align-items-center">
           <div className="flex-shrink-0">{tabControls}</div>
-          <InputGroup size="sm" className="flex-fill">
-            <InputGroup.Text>🔍</InputGroup.Text>
-            <Form.Control placeholder="Buscar alumno..." value={query} onChange={e => setQuery(e.target.value)} />
-            {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
-          </InputGroup>
+          <div className="d-flex align-items-center gap-1 flex-fill">
+            <Form.Control type="month" lang="es-AR" size="sm" style={{ flex: '1 1 auto', minWidth: 0 }}
+              value={periodo} onChange={e => setPeriodo(e.target.value)} />
+            {periodo && <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>}
+          </div>
         </div>
 
-        <div className="d-flex align-items-center gap-1">
-          <Form.Control type="month" lang="es-AR" size="sm" style={{ maxWidth: 148, flex: '1 1 auto' }}
-            value={periodo} onChange={e => setPeriodo(e.target.value)} />
-          {periodo && <Button variant="outline-secondary" size="sm" onClick={() => setPeriodo('')}>✕</Button>}
-        </div>
+        <InputGroup size="sm">
+          <InputGroup.Text>🔍</InputGroup.Text>
+          <Form.Control placeholder="Buscar alumno..." value={query} onChange={e => setQuery(e.target.value)} />
+          {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}
+        </InputGroup>
 
         <Form.Select size="sm" style={{ maxWidth: 180 }} value={estado} onChange={e => setEstado(e.target.value as typeof estado)}>
           <option value="all">Todos</option>
