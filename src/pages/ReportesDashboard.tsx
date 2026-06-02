@@ -9,7 +9,6 @@ import {
 } from 'recharts'
 
 const USER_COLORS  = ['#1A6BBF', '#E67E22', '#8E44AD', '#27AE60', '#16A085']
-const TIPO_COLORS  = ['#1A6BBF', '#E67E22', '#8E44AD', '#27AE60', '#16A085']
 const CAT_COLORS: Record<string, string> = { Cancha: '#1A6BBF', Bar: '#E67E22', Otro: '#8E44AD' }
 
 export interface DashboardData {

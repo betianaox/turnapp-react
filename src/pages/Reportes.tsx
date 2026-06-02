@@ -9,7 +9,7 @@ import { useStore }                from '../lib/store'
 import { usePagos, getPagoEstado } from '../lib/pagos'
 import { ff, fp }                  from '../lib/utils'
 import { ReportesDashboard }       from './ReportesDashboard'
-import { MONTHS, TIPO_LBL, DAYS }  from '../constants'
+import { MONTHS, DAYS }  from '../constants'
 
 type Vista = 'resumen' | 'dashboard'
 
