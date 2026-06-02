@@ -239,12 +239,9 @@ export function TurnoModal({ open, editId, prefillDia, prefillHora, prefillCanch
                     }}
                     className={`d-flex align-items-center gap-2 px-3 py-2 ${sel ? 'bg-primary bg-opacity-10' : ''}`}
                   >
-                    <div
-                      className={`flex-shrink-0 rounded-circle d-flex align-items-center justify-content-center ${sel ? 'bg-primary text-white' : 'border border-secondary'}`}
-                      style={{ width: 20, height: 20, fontSize: 11 }}
-                    >
-                      {sel && '✓'}
-                    </div>
+                    <Form.Check type="checkbox" readOnly checked={sel}
+                      tabIndex={-1} className="flex-shrink-0 mb-0"
+                      style={{ pointerEvents: 'none' }} />
                     <span className={`small ${sel ? 'fw-bold' : ''}`}>{nombre}</span>
                     {conflict && (
                       <span className="text-danger ms-auto" style={{ fontSize: 10 }}>C{conflict.cancha}</span>
