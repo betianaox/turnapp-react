@@ -259,7 +259,7 @@ function CobrosTab({ onToast, newTrigger, onNewHandled, onPagoPaid, tabControls 
           </div>
         </div>
 
-        <InputGroup size="sm">
+        <InputGroup size="sm" style={{ maxWidth: 210 }}>
           <InputGroup.Text>🔍</InputGroup.Text>
           <Form.Control placeholder="Buscar alumno..." value={query} onChange={e => setQuery(e.target.value)} />
           {query && <Button variant="outline-secondary" onClick={() => setQuery('')}>✕</Button>}

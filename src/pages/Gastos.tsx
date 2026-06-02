@@ -84,7 +84,7 @@ export function Gastos({ onOpenGasto, activePeriodo, onPeriodoChange }: Props) {
           {periodo && <Button variant="outline-secondary" size="sm" onClick={() => handlePeriodoChange('')}>✕</Button>}
         </div>
 
-        <InputGroup size="sm">
+        <InputGroup size="sm" style={{ maxWidth: 210 }}>
           <InputGroup.Text>🔍</InputGroup.Text>
           <Form.Control placeholder="Buscar..." value={search} onChange={e => setSearch(e.target.value)} />
           {search && <Button variant="outline-secondary" onClick={() => setSearch('')}>✕</Button>}
