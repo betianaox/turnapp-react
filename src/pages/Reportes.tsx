@@ -171,7 +171,7 @@ export function Reportes() {
         <div className="d-flex gap-2 align-items-center w-100">
           {/* Sub-tabs — mitad izquierda */}
           <div style={{ flex: 1 }}>
-            <div className="btn-group btn-group-sm">
+            <div className="btn-group btn-group-sm w-100">
               <button
                 type="button"
                 className={`btn ${vista === 'resumen' ? 'btn-primary' : 'btn-outline-secondary'}`}

@@ -441,7 +441,7 @@ export function Cobros({ onToast, newTrigger, onNewHandled, onPagoPaid }: Props)
   const [tab, setTab] = useState<CobrosTabId>('cobros')
 
   const tabBtns = (
-    <div className="btn-group btn-group-sm">
+    <div className="btn-group btn-group-sm w-100">
       <button type="button" title="Cobros"
         className={`btn ${tab === 'cobros' ? 'btn-primary' : 'btn-outline-secondary'}`}
         onClick={() => setTab('cobros')}>
