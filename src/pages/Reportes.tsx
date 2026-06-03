@@ -9,7 +9,7 @@ import { useStore }                from '../lib/store'
 import { usePagos, getPagoEstado } from '../lib/pagos'
 import { ff, fp }                  from '../lib/utils'
 import { ReportesDashboard }       from './ReportesDashboard'
-import { MONTHS, DAYS, TIPO_LBL }  from '../constants'
+import { MONTHS, DAYS }             from '../constants'
 
 type Vista = 'resumen' | 'dashboard'
 
@@ -172,19 +172,27 @@ export function Reportes() {
     { name: 'Cobrado',           value: pagadosIds.size,  color: '#2E7D32' },
   ]
 
-  // H — Treemap ingresos por alumno
-  const TIPO_C: Record<string, string> = {
-    'Grupal': '#1A6BBF', 'Individual': '#E67E22', '2x/sem': '#8E44AD', '3x/sem': '#27AE60', 'Clase suelta': '#16A085',
-  }
-  const treemapData = pagosDelMes
-    .map(p => {
-      const alumno = alumnos.find(a => a.id === p.alumnoId)
-      if (!alumno) return null
-      const tipo = TIPO_LBL[alumno.tipo] ?? alumno.tipo
-      return { name: alumno.nombre.split(' ')[0], size: p.monto, color: TIPO_C[tipo] ?? '#adb5bd', tipo }
-    })
-    .filter(Boolean) as { name: string; size: number; color: string; tipo: string }[]
+  // ── Comparación vs período anterior ─────────────────────────
+  const periodoActual   = periodo || mes
+  const [pyStr, pmStr]  = periodoActual.split('-')
+  const prevDate        = new Date(parseInt(pyStr), parseInt(pmStr) - 2)
+  const periodoAnterior = prevDate.toISOString().substring(0, 7)
 
+  const ingresosAnterior = pagos
+    .filter(p => !!p.fechaPago && (p.periodo ?? p.fechaPago.substring(0, 7)) === periodoAnterior)
+    .reduce((s, p) => s + p.monto, 0)
+  const gastosAnterior = gastos
+    .filter(g => (g.periodo ?? g.fecha.substring(0, 7)) === periodoAnterior)
+    .reduce((s, g) => s + g.monto, 0)
+
+  const periodoActualNombre   = MONTHS[parseInt(pmStr) - 1]
+  const periodoAnteriorNombre = MONTHS[parseInt(periodoAnterior.split('-')[1]) - 1]
+
+  const comparacionData = [
+    { name: 'Ingresos', actual: Math.round(ingresosMes),    anterior: Math.round(ingresosAnterior) },
+    { name: 'Gastos',   actual: Math.round(totalGastosMes), anterior: Math.round(gastosAnterior)   },
+    { name: 'Balance',  actual: Math.round(balanceTotal),   anterior: Math.round(ingresosAnterior - gastosAnterior) },
+  ]
 
   return (
     <>
@@ -414,7 +422,9 @@ export function Reportes() {
           ocupacionHoraria={ocupacionHorariaData}
           heatmap={heatmapData}
           funnelCobros={funnelCobrosData}
-          treemapData={treemapData}
+          comparacionPeriodos={comparacionData}
+          periodoActualNombre={periodoActualNombre}
+          periodoAnteriorNombre={periodoAnteriorNombre}
         />
       )}
     </>

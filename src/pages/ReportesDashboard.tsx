@@ -5,7 +5,7 @@ import {
   PieChart, Pie, Cell,
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   ComposedChart, Line, Legend,
-  ScatterChart, Scatter, ZAxis, Tooltip,
+  ReferenceLine, Tooltip,
   ResponsiveContainer,
 } from 'recharts'
 
@@ -22,7 +22,9 @@ export interface DashboardData {
   ocupacionHoraria: { name: string; value: number }[]
   heatmap:          { dia: number; hora: string; value: number }[]
   funnelCobros:     { name: string; value: number; color: string }[]
-  treemapData:      { name: string; size: number; color: string; tipo: string }[]
+  comparacionPeriodos:  { name: string; actual: number; anterior: number }[]
+  periodoActualNombre:  string
+  periodoAnteriorNombre:string
 }
 
 function Empty({ msg }: { msg: string }) {
@@ -53,7 +55,8 @@ const DIAS_LBL = ['', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 export function ReportesDashboard({
   ingresosPorUser, gastosPorCat, tendencia,
   alumnosPorEstado, tasaCobro, clasesPorDia, ocupacionHoraria,
-  heatmap, funnelCobros, treemapData,
+  heatmap, funnelCobros,
+  comparacionPeriodos, periodoActualNombre, periodoAnteriorNombre,
 }: DashboardData) {
   const { cobrados, total } = tasaCobro
   const pct        = total > 0 ? Math.round((cobrados / total) * 100) : 0
@@ -334,46 +337,35 @@ export function ReportesDashboard({
         </Card>
       </Col>
 
-      {/* G — Bubble chart: ingresos por alumno */}
+      {/* N1 — Comparación: período actual vs anterior */}
       <Col xs={12} md={6}>
         <Card className="border-0 shadow-sm h-100">
           <Card.Body>
             <div className="fw-bold text-uppercase text-muted mb-1" style={{ fontSize: 10, letterSpacing: .5 }}>
-              Ingresos por alumno · burbujas
+              Comparación de períodos
             </div>
-            <small className="text-muted d-block mb-2">Tamaño proporcional al monto</small>
-            {treemapData.length === 0 ? <Empty msg="Sin cobros en este período" /> : (
-              <ResponsiveContainer width="100%" height={H}>
-                <ScatterChart margin={{ top: 8, right: 8, left: 0, bottom: 8 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e9ecef" />
-                  <XAxis dataKey="x" type="number" hide />
-                  <YAxis dataKey="y" type="number" tickFormatter={yFmt}
-                    tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={46} />
-                  <ZAxis dataKey="z" range={[30, 600]} />
-                  <Tooltip content={({ payload }) => {
-                    if (!payload?.length) return null
-                    const d = payload[0].payload
-                    return (
-                      <div style={{ background: '#fff', border: '1px solid #e9ecef', borderRadius: 6, padding: '6px 10px', fontSize: 12 }}>
-                        <div className="fw-semibold">{d.name}</div>
-                        <div className="text-muted">{d.tipo} · {yFmt(d.y)}</div>
-                      </div>
-                    )
-                  }} />
-                  {[...new Set(treemapData.map(d => d.tipo))].map(tipo => (
-                    <Scatter key={tipo} name={tipo}
-                      data={treemapData
-                        .map((d, i) => ({ ...d, x: i, y: d.size, z: d.size }))
-                        .filter(d => d.tipo === tipo)}
-                      fill={treemapData.find(d => d.tipo === tipo)?.color ?? '#1A6BBF'}
-                      fillOpacity={0.7} />
-                  ))}
-                </ScatterChart>
-              </ResponsiveContainer>
-            )}
+            <small className="text-muted d-block mb-2">{periodoAnteriorNombre} vs {periodoActualNombre}</small>
+            {!comparacionPeriodos.some(d => d.actual !== 0 || d.anterior !== 0)
+              ? <Empty msg="Sin datos para comparar" />
+              : (
+                <ResponsiveContainer width="100%" height={H}>
+                  <BarChart data={comparacionPeriodos} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
+                    <XAxis dataKey="name" tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={46} tickFormatter={yFmt} />
+                    <Legend iconSize={9} wrapperStyle={{ fontSize: 11, paddingTop: 4 }} />
+                    <Tooltip formatter={(v: number) => yFmt(v)} />
+                    <ReferenceLine y={0} stroke="#adb5bd" />
+                    <Bar dataKey="anterior" name={periodoAnteriorNombre} fill="#adb5bd" radius={[3,3,0,0]} maxBarSize={22} />
+                    <Bar dataKey="actual"   name={periodoActualNombre}   fill="#1A6BBF" radius={[3,3,0,0]} maxBarSize={22} />
+                  </BarChart>
+                </ResponsiveContainer>
+              )
+            }
           </Card.Body>
         </Card>
       </Col>
+
 
     </Row>
   )
