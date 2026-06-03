@@ -36,8 +36,8 @@ const TABS: { id: PageId; icon: string; label: string }[] = [
   { id: 'alumnos',  icon: '👥', label: 'Alumnos'    },
   { id: 'gastos',   icon: '💸', label: 'Gastos'     },
   { id: 'cobros',   icon: '💰', label: 'Cobros'     },
+  { id: 'reportes', icon: '📊', label: 'Reportes'   },  
   { id: 'avisos',   icon: '🔔', label: 'Avisos'     },
-  { id: 'reportes', icon: '📊', label: 'Reportes'   },
   { id: 'accesos',  icon: '🔑', label: 'Accesos'    },
 ]
 const NO_FAB: PageId[] = ['cal', 'avisos', 'reportes', 'accesos']
