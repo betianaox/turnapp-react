@@ -354,7 +354,7 @@ export function ReportesDashboard({
                     <XAxis dataKey="name" tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
                     <YAxis tick={{ fontSize: 11 }} axisLine={false} tickLine={false} width={46} tickFormatter={yFmt} />
                     <Legend iconSize={9} wrapperStyle={{ fontSize: 11, paddingTop: 4 }} />
-                    <Tooltip formatter={(v: number) => yFmt(v)} />
+                    <Tooltip formatter={(v) => yFmt(typeof v === 'number' ? v : 0)} />
                     <ReferenceLine y={0} stroke="#adb5bd" />
                     <Bar dataKey="anterior" name={periodoAnteriorNombre} fill="#adb5bd" radius={[3,3,0,0]} maxBarSize={22} />
                     <Bar dataKey="actual"   name={periodoActualNombre}   fill="#1A6BBF" radius={[3,3,0,0]} maxBarSize={22} />
