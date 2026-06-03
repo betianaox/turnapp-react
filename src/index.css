@@ -23,14 +23,14 @@ html, body, #root { height: 100%; overflow: hidden; }
 .app-tabs .nav-item { flex-shrink: 0; }
 .app-tabs .nav-link {
   white-space: nowrap; padding: .32rem .55rem;
-  font-size: .6rem; font-weight: 700;
+  font-size: .7rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .3px;
   color: #6c757d; background: #fff;
   border: 1.5px solid #d6d9de !important;
   border-radius: 8px !important;
   transition: border-color .15s, color .15s, background .15s;
 }
-.app-tabs .tab-icon { font-size: 1rem; display: block; margin-bottom: 1px; }
+.app-tabs .tab-icon { font-size: 1.2rem; display: block; margin-bottom: 1px; }
 .app-tabs .nav-link:hover  { border-color: #9ea5b0 !important; color: #495057; }
 .app-tabs .nav-link.active {
   color: #1A6BBF !important;
@@ -44,7 +44,7 @@ html, body, #root { height: 100%; overflow: hidden; }
   width: 34px; height: 34px; border-radius: 50%;
   border: 2px solid rgba(255,255,255,.5);
   background: rgba(255,255,255,.2);
-  color: #fff; font-size: 14px; font-weight: 800;
+  color: #fff; font-size: 15px; font-weight: 800;
   cursor: pointer; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
   padding: 0; transition: border-color .15s;
@@ -57,13 +57,13 @@ html, body, #root { height: 100%; overflow: hidden; }
 .cal-day-section.today { border-color: #1A6BBF; box-shadow: 0 0 0 1px #1A6BBF; }
 .cal-day-hdr { display: flex; align-items: center; gap: 8px; padding: 7px 12px; background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
 .cal-day-hdr.today { background: #e8f2fc; border-bottom-color: rgba(26,107,191,.2); }
-.cal-day-name { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: #6c757d; }
+.cal-day-name { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: #6c757d; }
 .cal-day-hdr.today .cal-day-name { color: #1A6BBF; }
-.cal-day-date { font-size: 13px; font-weight: 800; color: #212529; }
-.cal-today-badge { margin-left: auto; background: #1A6BBF; color: #fff; font-size: 10px; font-weight: 800; padding: 2px 9px; border-radius: 20px; }
+.cal-day-date { font-size: 14px; font-weight: 800; color: #212529; }
+.cal-today-badge { margin-left: auto; background: #1A6BBF; color: #fff; font-size: 11px; font-weight: 800; padding: 2px 9px; border-radius: 20px; }
 .cal-grid { display: grid; grid-template-columns: min-content 1fr 1fr; }
-.ctime { background: #f8f9fa; padding: 3px 5px 0; text-align: right; font-size: 9px; font-weight: 600; color: #adb5bd; display: flex; align-items: flex-start; justify-content: flex-end; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; }
-.chc { background: #f8f9fa; padding: 6px 2px; text-align: center; font-size: 10px; font-weight: 800; color: #6c757d; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; text-transform: uppercase; letter-spacing: .3px; }
+.ctime { background: #f8f9fa; padding: 3px 5px 0; text-align: right; font-size: 10px; font-weight: 600; color: #adb5bd; display: flex; align-items: flex-start; justify-content: flex-end; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; }
+.chc { background: #f8f9fa; padding: 6px 2px; text-align: center; font-size: 11px; font-weight: 500; color: #6c757d; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; text-transform: uppercase; letter-spacing: .3px; }
 .chc.c1h { color: #7B4F0A; background: #FFF8E1; }
 .chc.c2h { color: #6A1B9A; background: #f3e5f5; }
 .ccell { border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; padding: 2px; cursor: pointer; transition: background .1s; }
@@ -82,7 +82,7 @@ html, body, #root { height: 100%; overflow: hidden; }
 
 /* Tag de nombre — chips sutiles */
 .cal-tag {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: .2px;
@@ -100,7 +100,7 @@ html, body, #root { height: 100%; overflow: hidden; }
 .cal-type-badge {
   position: absolute;
   bottom: 1px; right: 3px;
-  font-size: 8px;
+  font-size: 9px;
   line-height: 1;
   opacity: .55;
   pointer-events: none;
@@ -115,7 +115,7 @@ html, body, #root { height: 100%; overflow: hidden; }
   border: none;
   background: rgba(0,0,0,.22);
   color: #fff;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 900;
   line-height: 1;
   cursor: pointer;
@@ -150,7 +150,7 @@ html, body, #root { height: 100%; overflow: hidden; }
 .role-logo-btn { background: none; border: none; padding: 0; cursor: default; font-size: 64px; line-height: 1; margin-bottom: 12px; outline: none; user-select: none; -webkit-tap-highlight-color: transparent; }
 
 /* ── Toast ─────────────────────────────────────────────────── */
-.app-toast { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%); background: rgba(30,30,32,.9); color: #fff; border-radius: 20px; padding: 9px 20px; font-size: 13px; font-weight: 600; z-index: 1060; pointer-events: none; white-space: nowrap; transition: opacity .3s; backdrop-filter: blur(8px); }
+.app-toast { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%); background: rgba(30,30,32,.9); color: #fff; border-radius: 20px; padding: 9px 20px; font-size: 14px; font-weight: 600; z-index: 1060; pointer-events: none; white-space: nowrap; transition: opacity .3s; backdrop-filter: blur(8px); }
 
 /* ── Calendar nav arrows ────────────────────────────────────── */
 .cal-nav-btn { width: 30px; height: 30px; border-radius: 0.25rem; border: 1px solid #6c757d; background: white; color: #6c757d; cursor: pointer; display: flex; justify-content: center; align-items: center; padding: 0; transition: background .1s; }
@@ -193,8 +193,8 @@ html, body, #root { height: 100%; overflow: hidden; }
 
 /* ── AlumnoView ────────────────────────────────────────────── */
 .av-header { background: linear-gradient(135deg, #1A6BBF, #0D4F8C); color: #fff; padding: 20px 18px 22px; flex-shrink: 0; }
-.av-greeting { font-size: 22px; font-weight: 900; letter-spacing: -.3px; }
-.av-header-sub { font-size: 13px; opacity: .75; margin-top: 4px; }
+.av-greeting { font-size: 23px; font-weight: 900; letter-spacing: -.3px; }
+.av-header-sub { font-size: 14px; opacity: .75; margin-top: 4px; }
 .av-progress-bar { height: 6px; background: rgba(0,0,0,.08); border-radius: 3px; overflow: hidden; margin: 6px 0; }
 .av-progress-fill { height: 100%; border-radius: 3px; transition: width .4s; }
 

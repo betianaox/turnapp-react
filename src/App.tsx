@@ -128,7 +128,7 @@ function ProfesorApp({ onSignOut }: { onSignOut: () => void }) {
     <div className="app-wrap">
       {/* Navbar */}
       <Navbar bg="primary" variant="dark" className="px-3 py-2 flex-shrink-0" style={{ boxShadow: '0 2px 8px rgba(0,0,0,.15)' }}>
-        <Navbar.Brand className="fw-black me-auto" style={{ fontSize: 16, letterSpacing: -.3 }}>
+        <Navbar.Brand className="fw-black me-auto" style={{ fontSize: 17, letterSpacing: -.3 }}>
           📅 TurnApp
         </Navbar.Brand>
         <div className="d-flex align-items-center gap-2">
@@ -151,7 +151,7 @@ function ProfesorApp({ onSignOut }: { onSignOut: () => void }) {
           <div className="text-center mb-3">
             <div
               className="rounded-circle overflow-hidden mx-auto mb-2 d-flex align-items-center justify-content-center fw-bold text-white"
-              style={{ width: 72, height: 72, fontSize: 26, background: '#1A6BBF' }}
+              style={{ width: 72, height: 72, fontSize: 27, background: '#1A6BBF' }}
             >
               {user?.photoURL
                 ? <img src={user.photoURL} referrerPolicy="no-referrer" alt="" width={72} height={72} style={{ objectFit: 'cover', display: 'block' }} />
@@ -185,7 +185,7 @@ function ProfesorApp({ onSignOut }: { onSignOut: () => void }) {
               <span className="tab-icon">{t.icon}</span>
               <span className="d-none d-md-inline">{t.label}</span>
               {t.id === 'avisos' && avisosCount > 0 && (
-                <Badge bg="danger" pill className="position-absolute" style={{ top: 4, right: 4, fontSize: 9 }}>
+                <Badge bg="danger" pill className="position-absolute" style={{ top: 4, right: 4, fontSize: 10 }}>
                   {avisosCount}
                 </Badge>
               )}
@@ -224,8 +224,8 @@ function SinAccesoPage({ onSignOut }: { onSignOut: () => void }) {
   return (
     <div className="role-screen">
       <div style={{ fontSize: 56 }} className="mb-3">🔒</div>
-      <p className="fw-bold mb-1" style={{ fontSize: 22 }}>Acceso pendiente</p>
-      <p className="text-muted text-center mb-4" style={{ maxWidth: 280, fontSize: 14 }}>
+      <p className="fw-bold mb-1" style={{ fontSize: 23 }}>Acceso pendiente</p>
+      <p className="text-muted text-center mb-4" style={{ maxWidth: 280, fontSize: 15 }}>
         Tu cuenta todavía no fue habilitada. Contactá al administrador para que te active el acceso.
       </p>
       <Button variant="outline-secondary" onClick={onSignOut}>Cerrar sesión</Button>
